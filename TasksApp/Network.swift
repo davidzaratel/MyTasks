@@ -28,46 +28,28 @@ struct Network {
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         
-        
-        let body: [String: String] = [
-            "id": "",
-            "title": "",
-            "tasks": "",
-            "color": ""
+        let id: String = newListItem.id
+        let title: String = newListItem.title
+        let color: [String: String] = [
+            "id": newListItem.color.id,
+            "title": newListItem.color.title
         ]
         
+        guard let jsonData = try? JSONSerialization.data(withJSONObject: [
+            "id": id,
+            "title": title,
+            "tasks": newListItem.tasks,
+            "color": color
+        ], options: .prettyPrinted) else {
+            print("The traslation was not possible")
+            return
+        }
         
-//        let jsonData = try! JSONSerialization.data(withJSONObject: [
-//            "id": [
-//                "forecastday": [
-//                    [
-//                        "day": [
-//                            "maxtemp_c": 1.2,
-//                            "maxtemp_f": 3.4
-//                        ]
-//                    ],
-//                    [
-//                        "day": [
-//                            "maxtemp_c": 5.6,
-//                            "maxtemp_f": 7.8
-//                        ]
-//                    ]
-//                ]
-//            ]
-//        ], options: .prettyPrinted)
-        
-//        let jsonData = try! JSONSerialization.data(withJSONObject: [
-//            "id": newListItem.id,
-//            "title": newListItem.title,
-//            "tasks": [
-//                "id": newListItem.tasks.
-//            ]
-//        ], options: .prettyPrinted)
-                
-        request.httpBody = try? JSONSerialization.data(withJSONObject: body)
+        print("This is the jsonData, ",jsonData as Any)
+        request.httpBody = jsonData
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         print("This is the requests final body ", request.httpBody as Any)
-        print("This is the request body", body)
+        print("This is the request body", jsonData)
         URLSession.shared.dataTask(with: request) { data, _, error in
             guard let data = data, error == nil else {
                 return

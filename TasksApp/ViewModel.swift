@@ -39,8 +39,8 @@ class ViewModel: ObservableObject {
     @Published var network: Network = Network()
     
     init(){
-//        getLists()
-        getUsers()
+        getLists()
+//        getUsers()
     }
     
     func getLists() {
