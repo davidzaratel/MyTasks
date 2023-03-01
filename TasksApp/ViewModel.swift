@@ -71,7 +71,6 @@ class ViewModel: ObservableObject {
                 }
                 DispatchQueue.main.async { [weak self] in
                     self?.users = fetchedUsers
-                    print("These are the users: ", fetchedUsers)
                 }
             } else {
                 print("The data couldn't be fetched")
@@ -81,7 +80,7 @@ class ViewModel: ObservableObject {
     
     func addList(newListName: String, selectedColor: String){
         let newList = ListItem(id: UUID().uuidString, title: newListName, tasks: [], color: ColorItem(id: UUID().uuidString, title: selectedColor))
-        network.postData(fromURL: "http://localhost:3000/lists", newListItem: newList)
+        network.postNewList(fromURL: "http://localhost:3000/lists", newListItem: newList)
         self.lists.append(newList)
     }
     

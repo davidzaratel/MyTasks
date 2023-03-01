@@ -10,6 +10,7 @@ import Foundation
 
 struct Network {
     
+    // MARK: Fetching data from the users with HTTP request
     func fetchData(fromURL url: String, completionHandler: @escaping(_ data: Data?) -> ()) {
         guard let url = URL(string: url) else { return }
         URLSession.shared.dataTask(with: url) { data, _, error in
@@ -23,11 +24,12 @@ struct Network {
         }.resume()
     }
     
-    func postData(fromURL url: String, newListItem: ListItem){
+    
+    // MARK: Posting a newList from the user from the users with HTTP request
+    func postNewList(fromURL url: String, newListItem: ListItem){
         guard let url = URL(string: "http://localhost:3000/lists") else { return }
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
         
+        //Declaring values of newListItem to make sure the values are in the correct format
         let id: String = newListItem.id
         let title: String = newListItem.title
         let color: [String: String] = [
@@ -35,6 +37,7 @@ struct Network {
             "title": newListItem.color.title
         ]
         
+        //Parse the information from the newListItem into JSON
         guard let jsonData = try? JSONSerialization.data(withJSONObject: [
             "id": id,
             "title": title,
@@ -45,11 +48,11 @@ struct Network {
             return
         }
         
-        print("This is the jsonData, ",jsonData as Any)
+        //Making the HTTP request
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
         request.httpBody = jsonData
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        print("This is the requests final body ", request.httpBody as Any)
-        print("This is the request body", jsonData)
         URLSession.shared.dataTask(with: request) { data, _, error in
             guard let data = data, error == nil else {
                 return
