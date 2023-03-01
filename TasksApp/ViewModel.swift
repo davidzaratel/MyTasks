@@ -40,7 +40,7 @@ class ViewModel: ObservableObject {
     
     init(){
         getLists()
-//        getUsers()
+        getUsers()
     }
     
     func getLists() {
@@ -62,6 +62,7 @@ class ViewModel: ObservableObject {
     }
     
     func getUsers(){
+        isLoading = true
         let newUser = User(id: "2", username: "Aleks", password: "goodbye")
         network.postUsers(fromURL: "http://localhost:3000/users", newUser: newUser)
         network.fetchData(fromURL: "http://localhost:3000/users") { returnedData in
@@ -71,11 +72,17 @@ class ViewModel: ObservableObject {
                 }
                 DispatchQueue.main.async { [weak self] in
                     self?.users = fetchedUsers
+                    self?.isLoading = false
                 }
             } else {
                 print("The data couldn't be fetched")
             }
         }
+    }
+    
+    func postNewUser(id: String, username: String, password: String) {
+        let newUser = User(id: id, username: username, password: password)
+        network.postUsers(fromURL: "http://localhost:3000/users", newUser: newUser)
     }
     
     func addList(newListName: String, selectedColor: String){
