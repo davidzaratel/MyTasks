@@ -25,22 +25,28 @@ struct ColorItem: Hashable, Codable, Identifiable {
     var title: String
 }
 
+struct User: Hashable, Codable, Identifiable  {
+    var id: String
+    var username: String
+    var password: String
+}
 
 ///View Model of the Class, contains the lists of Tasks of the User
 class ViewModel: ObservableObject {
+    @Published var users: [User] = []
     @Published var lists: [ListItem] = []
     @Published private(set) var isLoading = false
+    @Published var network: Network = Network()
     
     init(){
-        getLists()
+//        getLists()
+        getUsers()
     }
     
     func getLists() {
-        
         isLoading = true
-        guard let url = URL(string: "http://localhost:3000/lists") else { return }
         
-        fetchData(fromURL: url) { returnedData in
+        network.fetchData(fromURL: "http://localhost:3000/lists") { returnedData in
             if let data = returnedData {
                 guard let fetchedLists = try? JSONDecoder().decode([ListItem].self, from: data) else {
                     return
@@ -55,79 +61,27 @@ class ViewModel: ObservableObject {
         }
     }
     
-    func fetchData(fromURL url: URL, completionHandler: @escaping(_ data: Data?) -> ()) {
-        URLSession.shared.dataTask(with: url) { data, _, error in
-            guard let data = data,
-                  error == nil
-            else {
-                completionHandler(nil)
-                return
+    func getUsers(){
+        let newUser = User(id: "2", username: "Aleks", password: "goodbye")
+        network.postUsers(fromURL: "http://localhost:3000/users", newUser: newUser)
+        network.fetchData(fromURL: "http://localhost:3000/users") { returnedData in
+            if let data = returnedData {
+                guard let fetchedUsers = try? JSONDecoder().decode([User].self, from: data) else {
+                    return
+                }
+                DispatchQueue.main.async { [weak self] in
+                    self?.users = fetchedUsers
+                    print("These are the users: ", fetchedUsers)
+                }
+            } else {
+                print("The data couldn't be fetched")
             }
-            completionHandler(data)
-        }.resume()
-    }
-    
-    func postData(newListItem: ListItem){
-        guard let url = URL(string: "https://localhost:3000") else { return }
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        
-        
-        let body: [String: String] = [
-            "id": "",
-            "title": "",
-            "tasks": "",
-            "color": ""
-        ]
-        
-//        let jsonData = try! JSONSerialization.data(withJSONObject: [
-//            "id": [
-//                "forecastday": [
-//                    [
-//                        "day": [
-//                            "maxtemp_c": 1.2,
-//                            "maxtemp_f": 3.4
-//                        ]
-//                    ],
-//                    [
-//                        "day": [
-//                            "maxtemp_c": 5.6,
-//                            "maxtemp_f": 7.8
-//                        ]
-//                    ]
-//                ]
-//            ]
-//        ], options: .prettyPrinted)
-        
-//        let jsonData = try! JSONSerialization.data(withJSONObject: [
-//            "id": newListItem.id,
-//            "title": newListItem.title,
-//            "tasks": [
-//                "id": newListItem.tasks.
-//            ]
-//        ], options: .prettyPrinted)
-                
-        request.httpBody = try? JSONSerialization.data(withJSONObject: body)
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        print("This is the requests final body ", request.httpBody as Any)
-        print("This is the request body", body)
-        URLSession.shared.dataTask(with: request) { data, _, error in
-            guard let data = data, error == nil else {
-                return
-            }
-
-            do{
-                let response = try JSONDecoder().decode(ListItem.self, from: data)
-                print("POST SUCCESS!", response)
-            } catch {
-                print(error)
-            }
-        }.resume()
+        }
     }
     
     func addList(newListName: String, selectedColor: String){
         let newList = ListItem(id: UUID().uuidString, title: newListName, tasks: [], color: ColorItem(id: UUID().uuidString, title: selectedColor))
-        self.postData(newListItem: newList)
+        network.postData(fromURL: "http://localhost:3000/lists", newListItem: newList)
         self.lists.append(newList)
     }
     

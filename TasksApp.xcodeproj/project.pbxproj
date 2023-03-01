@@ -20,6 +20,7 @@
 		198613E829A5175C00988EC9 /* AddListsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 198613E729A5175C00988EC9 /* AddListsView.swift */; };
 		198613EA29ACB02F00988EC9 /* AuthentificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 198613E929ACB02F00988EC9 /* AuthentificationView.swift */; };
 		198613EC29ACBFBF00988EC9 /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 198613EB29ACBFBF00988EC9 /* ViewModel.swift */; };
+		A50BF4FE29AF4FBE00A05338 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = A50BF4FD29AF4FBE00A05338 /* Network.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,6 +57,7 @@
 		198613E729A5175C00988EC9 /* AddListsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddListsView.swift; sourceTree = "<group>"; };
 		198613E929ACB02F00988EC9 /* AuthentificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthentificationView.swift; sourceTree = "<group>"; };
 		198613EB29ACBFBF00988EC9 /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
+		A50BF4FD29AF4FBE00A05338 /* Network.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -113,6 +115,7 @@
 				198613E529A509CB00988EC9 /* AddTasksView.swift */,
 				198613E929ACB02F00988EC9 /* AuthentificationView.swift */,
 				198613DB29A4C9FE00988EC9 /* BottomView.swift */,
+				A50BF4FD29AF4FBE00A05338 /* Network.swift */,
 				198613DD29A4EE7300988EC9 /* TasksView.swift */,
 				198613B529A4B93800988EC9 /* Assets.xcassets */,
 				198613B729A4B93800988EC9 /* Preview Content */,
@@ -280,6 +283,7 @@
 				198613B429A4B93700988EC9 /* ContentView.swift in Sources */,
 				198613E629A509CB00988EC9 /* AddTasksView.swift in Sources */,
 				198613B229A4B93700988EC9 /* TasksAppApp.swift in Sources */,
+				A50BF4FE29AF4FBE00A05338 /* Network.swift in Sources */,
 				198613E829A5175C00988EC9 /* AddListsView.swift in Sources */,
 				198613DE29A4EE7300988EC9 /* TasksView.swift in Sources */,
 				198613EA29ACB02F00988EC9 /* AuthentificationView.swift in Sources */,
