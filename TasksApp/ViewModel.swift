@@ -33,8 +33,8 @@ struct User: Hashable, Codable, Identifiable  {
 
 ///View Model of the Class, contains the lists of Tasks of the User
 class ViewModel: ObservableObject {
-    @Published var users: [User] = []
-    @Published var lists: [ListItem] = []
+    @Published private(set) var users: [User] = []
+    @Published private(set) var lists: [ListItem] = []
     @Published private(set) var isLoading = false
     @Published var network: Network = Network()
     
@@ -89,6 +89,14 @@ class ViewModel: ObservableObject {
         let newList = ListItem(id: UUID().uuidString, title: newListName, tasks: [], color: ColorItem(id: UUID().uuidString, title: selectedColor))
         network.postNewList(fromURL: "http://localhost:3000/lists", newListItem: newList)
         self.lists.append(newList)
+    }
+    
+    func deleteList(indexSet: IndexSet) {
+        self.lists.remove(atOffsets: indexSet)
+    }
+    
+    func moveListOrder(indices: IndexSet, newOffset: Int){
+        self.lists.move(fromOffsets: indices, toOffset: newOffset)
     }
     
     func addTasks(newTaskName: String, index: Int){

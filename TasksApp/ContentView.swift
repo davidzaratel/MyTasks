@@ -10,42 +10,52 @@ import SwiftUI
 struct ContentView: View {
     
     @StateObject var viewModel: ViewModel = ViewModel()
-    
+    @State var searchList = ""
+    var listsFiltered : [ListItem] {
+        return self.searchList == "" ? viewModel.lists :
+        viewModel.lists.filter {
+            $0.title.lowercased().contains(self.searchList.lowercased())
+        }
+    }
+
     var body: some View {
         NavigationView {
             ZStack{
                 Color("BackgroundColor").ignoresSafeArea()
                 VStack {
-                    ScrollView{
-                        VStack(spacing: 25) {
-                            if viewModel.isLoading {
-                            Spacer()
-                            ProgressView().frame(width: 500, height: 500, alignment: .center).scaleEffect(2)
-                            Spacer()                            
-                            } else {
-                                ForEach(viewModel.lists.indices, id: \.self) { index in
-                                    HStack{
-                                        NavigationLink {
-                                            TasksView(index: index)
-                                        } label: {
-                                            HStack{
-                                                Text(viewModel.lists[index].title).padding()
-                                                Spacer()
-                                                Text(String(viewModel.lists[index].tasks.count)).padding()
-                                            }
-                                            .frame(height: 70)
-                                            .frame(maxWidth: .infinity)
-                                            .background(Color(viewModel.lists[index].color.title))
-                                            .foregroundColor(Color.white)
-                                            .font(.system(size: 20))
-                                            .cornerRadius(20)
-                                            .bold()
-                                        }.padding(.horizontal)
+                    if viewModel.isLoading {
+                        Spacer()
+                        ProgressView().frame(width: 500, height: 500, alignment: .center).scaleEffect(2)
+                        Spacer()
+                    } else {
+                        List {
+                            ForEach(listsFiltered.indices, id: \.self) { index in
+                                    NavigationLink {
+                                        TasksView(index: index)
+                                    } label: {
+                                        HStack{
+                                            Text(listsFiltered[index].title)
+                                            Spacer()
+                                            Text(String(listsFiltered[index].tasks.count))
+                                                .padding()
+                                        }
                                     }
+                                        .padding(.horizontal)
+                                        .frame(height: 40)
+                                        .frame(maxWidth: .infinity)
+                                        .listRowBackground(Color(listsFiltered[index].color.title))
+                                        .foregroundColor(Color.white)
+                                        .font(.system(size: 20))
+                                        .cornerRadius(20)
+                                        .bold()
                                 }
-                            }
-                        }
-                    }.padding(.vertical, 30)
+                                .onDelete(perform: viewModel.deleteList)
+                                .onMove(perform: viewModel.moveListOrder)
+                        }.padding(.top, 0.5)
+                        .scrollContentBackground(.hidden)
+                        .searchable(text: $searchList)
+                        .navigationBarItems( trailing: EditButton())
+                    }
                     Spacer()
                     BottomView()
                 }
