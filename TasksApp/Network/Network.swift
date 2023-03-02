@@ -28,8 +28,7 @@ struct Network {
     
     
     // MARK: Posting a newList from the user from the users with HTTP request
-    func postNewList(fromURL url: String, newListItem: ListItem){
-        guard let url = URL(string: "http://localhost:3000/lists") else { return }
+    func postNewList(fromURL url: URL, newListItem: ListItem){
         
         //Declaring values of newListItem to make sure the values are in the correct format
         let id: String = newListItem.id
@@ -69,8 +68,7 @@ struct Network {
         }.resume()
     }
     
-    func postUsers(fromURL url: String, newUser: User){
-        guard let url = URL(string: "http://localhost:3000/users") else { return }
+    func postUsers(fromURL url: URL, newUser: User){
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         
