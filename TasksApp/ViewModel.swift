@@ -33,14 +33,14 @@ struct User: Hashable, Codable, Identifiable  {
 
 ///View Model of the Class, contains the lists of Tasks of the User
 class ViewModel: ObservableObject {
-    @Published var users: [User] = []
-    @Published var lists: [ListItem] = []
+    @Published private(set) var users: [User] = []
+    @Published private(set) var lists: [ListItem] = []
     @Published private(set) var isLoading = false
     @Published var network: Network = Network()
     
     init(){
-        getLists()
-//        getUsers()
+//        getLists()
+        getUsers()
     }
     
     func getLists() {
@@ -62,8 +62,7 @@ class ViewModel: ObservableObject {
     }
     
     func getUsers(){
-        let newUser = User(id: "2", username: "Aleks", password: "goodbye")
-        network.postUsers(fromURL: "http://localhost:3000/users", newUser: newUser)
+        isLoading = true
         network.fetchData(fromURL: "http://localhost:3000/users") { returnedData in
             if let data = returnedData {
                 guard let fetchedUsers = try? JSONDecoder().decode([User].self, from: data) else {
@@ -71,6 +70,7 @@ class ViewModel: ObservableObject {
                 }
                 DispatchQueue.main.async { [weak self] in
                     self?.users = fetchedUsers
+                    self?.isLoading = false
                 }
             } else {
                 print("The data couldn't be fetched")
@@ -78,10 +78,23 @@ class ViewModel: ObservableObject {
         }
     }
     
+    func postNewUser(id: String, username: String, password: String) {
+        let newUser = User(id: id, username: username, password: password)
+        network.postUsers(fromURL: "http://localhost:3000/users", newUser: newUser)
+    }
+    
     func addList(newListName: String, selectedColor: String){
         let newList = ListItem(id: UUID().uuidString, title: newListName, tasks: [], color: ColorItem(id: UUID().uuidString, title: selectedColor))
         network.postNewList(fromURL: "http://localhost:3000/lists", newListItem: newList)
         self.lists.append(newList)
+    }
+    
+    func deleteList(indexSet: IndexSet) {
+        self.lists.remove(atOffsets: indexSet)
+    }
+    
+    func moveListOrder(indices: IndexSet, newOffset: Int){
+        self.lists.move(fromOffsets: indices, toOffset: newOffset)
     }
     
     func addTasks(newTaskName: String, index: Int){

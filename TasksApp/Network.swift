@@ -13,9 +13,11 @@ struct Network {
     // MARK: Fetching data from the users with HTTP request
     func fetchData(fromURL url: String, completionHandler: @escaping(_ data: Data?) -> ()) {
         guard let url = URL(string: url) else { return }
-        URLSession.shared.dataTask(with: url) { data, _, error in
+        URLSession.shared.dataTask(with: url) { data, response, error in
             guard let data = data,
-                  error == nil
+                  error == nil,
+                  let response = response as? HTTPURLResponse,
+                  response.statusCode >= 200 && response.statusCode < 300
             else {
                 completionHandler(nil)
                 return
