@@ -16,7 +16,7 @@ struct AutenthificationView: View {
     @State var username = ""
     @State var password = ""
     @State var loggedIn = false
-    @State var userExists = false
+    @State var loginMessage = ""
     
     var body: some View {
         
@@ -28,7 +28,11 @@ struct AutenthificationView: View {
                         .foregroundColor(Color.white)
                         .font(.system(size: 40))
                         .bold()
-                        .padding(.bottom, 90)
+                    Text("Please enter your username or create a new one")
+                        .padding()
+                        .foregroundColor(Color.white)
+                        .multilineTextAlignment(.center)
+                        .padding(.bottom, 50)
                     TextField("Username", text: $username)
                         .padding()
                         .background(Color("ListButtonColor"))
@@ -38,6 +42,7 @@ struct AutenthificationView: View {
                         .environment(\.colorScheme, .dark)
                         .bold()
                         .autocapitalization(.none)
+                        .autocorrectionDisabled()
                     SecureField("Password", text: $password)
                         .padding().background(Color("ListButtonColor"))
                         .frame(width: 300)
@@ -45,16 +50,15 @@ struct AutenthificationView: View {
                         .foregroundColor(Color.white)
                         .environment(\.colorScheme, .dark)
                         .bold()
-                    if userExists {
-                        Text("User already exists")
-                            .foregroundColor(Color.gray)
-                    }
+                    Text(loginMessage)
+                        .foregroundColor(Color.gray)
+                        .frame(height: 30)
                     Button {
                         if !viewModel.isLoading {
                             registerUser()
                         }
                     } label: {
-                        Text("Register")
+                        Text("Login")
                             .padding(.horizontal,100).padding()
                             .foregroundColor(Color.white)
                             .background(Color("AddButton"))
@@ -62,13 +66,6 @@ struct AutenthificationView: View {
                             .bold()
                     }.padding(.top, 90)
                     
-                    Button {
-                        //
-                    } label: {
-                        Text("Already have an Account? Login")
-                            .foregroundColor(Color.white)
-                            .bold()
-                    }.padding(.bottom, 30)
                 }
                 if viewModel.isLoading {
                     Color.black.opacity(0.7)
@@ -81,13 +78,23 @@ struct AutenthificationView: View {
     }
     
     func registerUser(){
+        let fieldsCompleted = (self.username != "" && self.password != "") ?
+            true : false
         if viewModel.users.contains(where: {$0.username == self.username}){
-            self.userExists.toggle()
+            if viewModel.users.contains(where: {$0.password == self.password}) {
+                self.loginMessage = "Logged in correctly"
+            } else {
+                self.loginMessage = "Wrong password"
+            }
         } else {
-            viewModel.postNewUser(id: UUID().uuidString, username: self.username, password: self.password)
+            if fieldsCompleted {
+                viewModel.postNewUser(id: UUID().uuidString, username: self.username, password: self.password)
+                loginMessage = "Registered correctly"
+            } else {
+                self.loginMessage = "Please fill both fields"
+            }
         }
     }
-    
 }
 
 struct Authentification_Previews: PreviewProvider {

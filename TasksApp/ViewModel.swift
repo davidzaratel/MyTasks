@@ -39,7 +39,7 @@ class ViewModel: ObservableObject {
     @Published var network: Network = Network()
     
     init(){
-        getLists()
+//        getLists()
         getUsers()
     }
     
@@ -63,8 +63,6 @@ class ViewModel: ObservableObject {
     
     func getUsers(){
         isLoading = true
-        let newUser = User(id: "2", username: "Aleks", password: "goodbye")
-        network.postUsers(fromURL: "http://localhost:3000/users", newUser: newUser)
         network.fetchData(fromURL: "http://localhost:3000/users") { returnedData in
             if let data = returnedData {
                 guard let fetchedUsers = try? JSONDecoder().decode([User].self, from: data) else {
