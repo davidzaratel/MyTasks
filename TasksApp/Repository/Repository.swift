@@ -23,28 +23,26 @@ class Repository {
         network.postUsers(request: request)
     }
     
-    func postNewList(fromURL url: URL, newListItem: ListItem) {
-        //Parse the information from the newListItem into JSON
+    func makeListRequest(fromURL url: URL, method: String, newListItem: ListItem) {
+        let tasks : [[String: String]] = newListItem.tasks.map {[ "id": $0.id, "title": $0.title]}
         guard let jsonBody = try? JSONSerialization.data(withJSONObject: [
             "id": newListItem.id,
             "title": newListItem.title,
-            "tasks": newListItem.tasks,
-            "color": [
-                "id": newListItem.color.id,
-                "title": newListItem.color.title
-            ]
+            "tasks": tasks,
+            "color": [ "id": newListItem.color.id, "title": newListItem.color.title]
         ], options: .prettyPrinted) else {
             print("The traslation was not possible")
             return
         }
         
-        let request = createRequest(fromURL: url, method: "POST", body: jsonBody)
-        network.postNewList(request: request)
+        let request = createRequest(fromURL: url, method: method, body: jsonBody)
+        network.executeRequest(request: request)
     }
+
     
     func createRequest(fromURL url: URL, method: String, body: Data) -> URLRequest {
         var request = URLRequest(url: url)
-        request.httpMethod = "POST"
+        request.httpMethod = method
         request.httpBody = body
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         return request

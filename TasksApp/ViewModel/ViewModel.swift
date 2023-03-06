@@ -70,7 +70,7 @@ class ViewModel: ObservableObject {
     func addList(newListName: String, selectedColor: String){
         let newList = ListItem(id: UUID().uuidString, title: newListName, tasks: [], color: ColorItem(id: UUID().uuidString, title: selectedColor))
         guard let url = URL(string: Constants.listsURL) else { return }
-        repository.postNewList(fromURL: url, newListItem: newList)
+        repository.makeListRequest(fromURL: url, method: "POST", newListItem: newList)
         self.lists.append(newList)
     }
     
@@ -85,10 +85,16 @@ class ViewModel: ObservableObject {
     func addTasks(newTaskName: String, index: Int){
         let newTask = TaskItem(id: UUID().uuidString, title: newTaskName)
         self.lists[index].tasks.append(newTask)
+        let paramURL = Constants.listsURL + "/" + self.lists[index].id
+        guard let url = URL(string: paramURL) else { return }
+        repository.makeListRequest(fromURL: url, method: "PUT", newListItem: self.lists[index])
     }
     
     func deleteTasks(indexSet: IndexSet, index: Int){
         self.lists[index].tasks.remove(atOffsets: indexSet)
+        let paramURL = Constants.listsURL + "/" + self.lists[index].id
+        guard let url = URL(string: paramURL) else { return }
+        repository.makeListRequest(fromURL: url, method: "PUT", newListItem: self.lists[index])
     }
     
     func moveTaskOrder(indices: IndexSet, newOffset: Int, index: Int){

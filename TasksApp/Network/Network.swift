@@ -25,9 +25,8 @@ struct Network {
         }.resume()
     }
     
-    
     // MARK: Posting a newList from the user from the users with HTTP request
-    func postNewList(request: URLRequest){
+    func executeRequest(request: URLRequest){
         URLSession.shared.dataTask(with: request) { data, _, error in
             guard let data = data, error == nil else {
                 return
@@ -35,7 +34,7 @@ struct Network {
 
             do{
                 let response = try JSONDecoder().decode(ListItem.self, from: data)
-                print("POST SUCCESS!", response)
+                print("REQUEST SUCCESS!", response)
             } catch {
                 print(error)
             }
