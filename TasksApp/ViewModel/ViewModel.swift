@@ -17,48 +17,32 @@ class ViewModel: ObservableObject {
     @Published var network: Network = Network()
     @Published var repository: Repository = Repository()
     
-    init(){
-        getLists()
-//        getUsers()
-    }
-    
-    func getLists() {
-        isLoading = true
+    @MainActor
+    func getLists() async {
         guard let url = URL(string: Constants.listsURL) else { return }
-            network.fetchData(fromURL: url) { returnedData in
-                if let data = returnedData {
-                    guard let fetchedData = try? JSONDecoder().decode([ListItem].self, from: data) else {
-                        return
-                    }
-                    DispatchQueue.main.async { [weak self] in
-                        print("This is the fetched data", fetchedData)
-                        self?.isLoading = false
-                        self?.lists = fetchedData
-                    }
-                } else {
-                    print("The data couldn't be fetched")
-                }
+        isLoading = true
+        Task {
+            do {
+                lists = try await repository.fetchData(fromURL: url)
+                isLoading = false
+            } catch {
+                print("Error", error)
             }
+        }
     }
     
-
-    func getUsers() {
-        isLoading = true
+    @MainActor
+    func getUsers() async {
         guard let url = URL(string: Constants.usersURL) else { return }
-            network.fetchData(fromURL: url) { returnedData in
-                if let data = returnedData {
-                    guard let fetchedData = try? JSONDecoder().decode([User].self, from: data) else {
-                        return
-                    }
-                    DispatchQueue.main.async { [weak self] in
-                        print("This is the fetched data", fetchedData)
-                        self?.isLoading = false
-                        self?.users = fetchedData
-                    }
-                } else {
-                    print("The data couldn't be fetched")
-                }
+        isLoading = true
+        Task {
+            do {
+                lists = try await repository.fetchData(fromURL: url)
+                isLoading = false
+            } catch {
+                print("Error", error)
             }
+        }
     }
     
     func postNewUser(id: String, username: String, password: String) {
@@ -70,7 +54,7 @@ class ViewModel: ObservableObject {
     func addList(newListName: String, selectedColor: String){
         let newList = ListItem(id: UUID().uuidString, title: newListName, tasks: [], color: ColorItem(id: UUID().uuidString, title: selectedColor))
         guard let url = URL(string: Constants.listsURL) else { return }
-        repository.postNewList(fromURL: url, newListItem: newList)
+        repository.makeListRequest(fromURL: url, method: "POST", newListItem: newList)
         self.lists.append(newList)
     }
     
@@ -85,10 +69,16 @@ class ViewModel: ObservableObject {
     func addTasks(newTaskName: String, index: Int){
         let newTask = TaskItem(id: UUID().uuidString, title: newTaskName)
         self.lists[index].tasks.append(newTask)
+        let paramURL = Constants.listsURL + "/" + self.lists[index].id
+        guard let url = URL(string: paramURL) else { return }
+        repository.makeListRequest(fromURL: url, method: "PUT", newListItem: self.lists[index])
     }
     
     func deleteTasks(indexSet: IndexSet, index: Int){
         self.lists[index].tasks.remove(atOffsets: indexSet)
+        let paramURL = Constants.listsURL + "/" + self.lists[index].id
+        guard let url = URL(string: paramURL) else { return }
+        repository.makeListRequest(fromURL: url, method: "PUT", newListItem: self.lists[index])
     }
     
     func moveTaskOrder(indices: IndexSet, newOffset: Int, index: Int){

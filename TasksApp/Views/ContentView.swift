@@ -61,6 +61,11 @@ struct ContentView: View {
                 }
             }
             .navigationTitle("My Tasks")
+            .onAppear {
+                Task {
+                    await viewModel.getLists()
+                }
+            }
         }.environment(\.colorScheme, .dark)
             .environmentObject(viewModel)
     }
