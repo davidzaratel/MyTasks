@@ -10,6 +10,7 @@ import SwiftUI
 
 ///View Model of the Class, contains the lists of Tasks of the User
 class ViewModel: ObservableObject {
+    
     @Published private(set) var users: [User] = []
     @Published private(set) var lists: [ListItem] = []
     @Published private(set) var isLoading = false
@@ -17,26 +18,59 @@ class ViewModel: ObservableObject {
     @Published var repository: Repository = Repository()
     
     init(){
-//        getLists()
-        getUsers()
+        getLists()
+//        getUsers()
     }
     
-    func getLists(){
-//        repository.getData(fromURL: Constants.listsURL)
+    func getLists() {
+        isLoading = true
+        guard let url = URL(string: Constants.listsURL) else { return }
+            network.fetchData(fromURL: url) { returnedData in
+                if let data = returnedData {
+                    guard let fetchedData = try? JSONDecoder().decode([ListItem].self, from: data) else {
+                        return
+                    }
+                    DispatchQueue.main.async { [weak self] in
+                        print("This is the fetched data", fetchedData)
+                        self?.isLoading = false
+                        self?.lists = fetchedData
+                    }
+                } else {
+                    print("The data couldn't be fetched")
+                }
+            }
     }
     
-    func getUsers(){
-        repository.getUsers(fromURL: Constants.usersURL)
+
+    func getUsers() {
+        isLoading = true
+        guard let url = URL(string: Constants.usersURL) else { return }
+            network.fetchData(fromURL: url) { returnedData in
+                if let data = returnedData {
+                    guard let fetchedData = try? JSONDecoder().decode([User].self, from: data) else {
+                        return
+                    }
+                    DispatchQueue.main.async { [weak self] in
+                        print("This is the fetched data", fetchedData)
+                        self?.isLoading = false
+                        self?.users = fetchedData
+                    }
+                } else {
+                    print("The data couldn't be fetched")
+                }
+            }
     }
     
     func postNewUser(id: String, username: String, password: String) {
         let newUser = User(id: id, username: username, password: password)
-//        network.postUsers(fromURL: "http://localhost:3000/users", newUser: newUser)
+        guard let url = URL(string: Constants.usersURL) else { return }
+        repository.postNewUser(fromURL: url, newUser: newUser)
     }
     
     func addList(newListName: String, selectedColor: String){
         let newList = ListItem(id: UUID().uuidString, title: newListName, tasks: [], color: ColorItem(id: UUID().uuidString, title: selectedColor))
-//        network.postNewList(fromURL: "http://localhost:3000/lists", newListItem: newList)
+        guard let url = URL(string: Constants.listsURL) else { return }
+        repository.postNewList(fromURL: url, newListItem: newList)
         self.lists.append(newList)
     }
     
@@ -60,4 +94,9 @@ class ViewModel: ObservableObject {
     func moveTaskOrder(indices: IndexSet, newOffset: Int, index: Int){
         self.lists[index].tasks.move(fromOffsets: indices, toOffset: newOffset)
     }
+    
+    func toggleIsLoading() {
+        self.isLoading.toggle()
+    }
+    
 }

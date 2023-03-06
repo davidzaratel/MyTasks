@@ -25,7 +25,7 @@ struct ColorItem: Hashable, Codable, Identifiable {
     var title: String
 }
 
-struct User: RetrievableObjectProtocol  {
+struct User: Hashable, Codable, Identifiable  {
     var id: String
     var username: String
     var password: String
@@ -35,16 +35,3 @@ struct Constants {
     static var listsURL: String = "http://localhost:3000/lists"
     static var usersURL: String = "http://localhost:3000/users"
 }
-
-
-
-protocol RetrievableObjectProtocol: Hashable, Codable, Identifiable   {
-    var id: String { get set }
-}
-
-enum ObjectType {
-    case user
-    case list
-}
-
-

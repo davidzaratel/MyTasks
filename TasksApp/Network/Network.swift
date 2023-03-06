@@ -11,8 +11,7 @@ import Foundation
 struct Network {
     
     // MARK: Fetching data from the users with HTTP request
-    func fetchData(fromURL url: String, completionHandler: @escaping(_ data: Data?) -> ()) {
-        guard let url = URL(string: url) else { return }
+    func fetchData(fromURL url: URL, completionHandler: @escaping(_ data: Data?) -> ()) {
         URLSession.shared.dataTask(with: url) { data, response, error in
             guard let data = data,
                   error == nil,
@@ -28,32 +27,7 @@ struct Network {
     
     
     // MARK: Posting a newList from the user from the users with HTTP request
-    func postNewList(fromURL url: URL, newListItem: ListItem){
-        
-        //Declaring values of newListItem to make sure the values are in the correct format
-        let id: String = newListItem.id
-        let title: String = newListItem.title
-        let color: [String: String] = [
-            "id": newListItem.color.id,
-            "title": newListItem.color.title
-        ]
-        
-        //Parse the information from the newListItem into JSON
-        guard let jsonData = try? JSONSerialization.data(withJSONObject: [
-            "id": id,
-            "title": title,
-            "tasks": newListItem.tasks,
-            "color": color
-        ], options: .prettyPrinted) else {
-            print("The traslation was not possible")
-            return
-        }
-        
-        //Making the HTTP request
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        request.httpBody = jsonData
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+    func postNewList(request: URLRequest){
         URLSession.shared.dataTask(with: request) { data, _, error in
             guard let data = data, error == nil else {
                 return
@@ -68,19 +42,7 @@ struct Network {
         }.resume()
     }
     
-    func postUsers(fromURL url: URL, newUser: User){
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        
-        
-        let body: [String: String] = [
-            "id": newUser.id,
-            "username": newUser.username,
-            "password": newUser.password
-        ]
-                
-        request.httpBody = try? JSONSerialization.data(withJSONObject: body)
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+    func postUsers(request: URLRequest){
         URLSession.shared.dataTask(with: request) { data, _, error in
             guard let data = data, error == nil else {
                 return
