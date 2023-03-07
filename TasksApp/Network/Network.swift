@@ -10,22 +10,14 @@ import Foundation
 
 struct Network {
     
-    // MARK: Fetching data from the users with HTTP request
-    func fetchData(fromURL url: URL, completionHandler: @escaping(_ data: Data?) -> ()) {
-        URLSession.shared.dataTask(with: url) { data, response, error in
-            guard let data = data,
-                  error == nil,
-                  let response = response as? HTTPURLResponse,
-                  response.statusCode >= 200 && response.statusCode < 300
-            else {
-                completionHandler(nil)
-                return
-            }
-            completionHandler(data)
-        }.resume()
+    // MARK: Function that fetches Any type of data
+    func fetchData(urlRequest: URLRequest) async throws -> Data {
+        let (data, response) = try await URLSession.shared.data(for: urlRequest)
+        guard (response as? HTTPURLResponse)?.statusCode == 200 else { fatalError("Error while fetching data") }
+        return data
     }
     
-    // MARK: Posting a newList from the user from the users with HTTP request
+    // MARK: Function that executes network requests
     func executeRequest(request: URLRequest){
         URLSession.shared.dataTask(with: request) { data, _, error in
             guard let data = data, error == nil else {
@@ -40,19 +32,4 @@ struct Network {
             }
         }.resume()
     }
-    
-    func postUsers(request: URLRequest){
-        URLSession.shared.dataTask(with: request) { data, _, error in
-            guard let data = data, error == nil else {
-                return
-            }
-            do{
-                let response = try JSONDecoder().decode(User.self, from: data)
-                print("POST SUCCESS!", response)
-            } catch {
-                print(error)
-            }
-        }.resume()
-    }
-
 }

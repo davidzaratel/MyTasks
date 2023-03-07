@@ -34,4 +34,9 @@ struct User: Hashable, Codable, Identifiable  {
 struct Constants {
     static var listsURL: String = "http://localhost:3000/lists"
     static var usersURL: String = "http://localhost:3000/users"
+    
+    static func getParamURL(url: String, params: String) -> String{
+        return url + "/" + params
+    }
 }
+
