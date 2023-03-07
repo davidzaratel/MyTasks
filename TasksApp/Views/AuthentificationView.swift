@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 
 ///AuthentificationView: In this UIView the user will be able to log in
-struct AutenthificationView: View {
+struct AutentificationView: View {
     
     @StateObject var viewModel: ViewModel = ViewModel()
     
@@ -72,6 +72,10 @@ struct AutenthificationView: View {
                     Text("Fetching users...")
                         .foregroundColor(Color.white)
                 }
+            }.onAppear {
+                Task {
+                    await viewModel.getData(urlString: Constants.usersURL)
+                }
             }
         }
         
@@ -99,7 +103,7 @@ struct AutenthificationView: View {
 
 struct Authentification_Previews: PreviewProvider {
     static var previews: some View {
-        AutenthificationView()
+        AutentificationView()
     }
 }
 

@@ -61,6 +61,11 @@ struct ContentView: View {
                 }
             }
             .navigationTitle("My Tasks")
+            .onAppear {
+                Task {
+                    await viewModel.getData(urlString: Constants.listsURL)
+                }
+            }
         }.environment(\.colorScheme, .dark)
             .environmentObject(viewModel)
     }
