@@ -14,7 +14,7 @@ class ViewModel: ObservableObject {
     @Published private(set) var users: [User] = []
     @Published private(set) var lists: [ListItem] = []
     @Published private(set) var isLoading = false
-    @Published var repository: Repository = Repository()
+    @Published private(set) var repository: Repository = Repository()
     
     @MainActor
     func getData(urlString: String) async {
@@ -55,7 +55,11 @@ class ViewModel: ObservableObject {
     }
     
     func deleteList(indexSet: IndexSet) {
+        guard let index = indexSet.first else { return }
+        guard let url = URL(string: Constants.getParamURL(url: Constants.listsURL, params: String(self.lists[index].id)))
+        else { return }
         self.lists.remove(atOffsets: indexSet)
+        repository.deleteList(fromURL: url)
     }
     
     func moveListOrder(indices: IndexSet, newOffset: Int){

@@ -10,7 +10,7 @@ import SwiftUI
 
 class Repository {
     @State private(set) var isLoading = false
-    @State var network: Network = Network()
+    @State private var network: Network = Network()
     
     func fetchData<T:Codable> (fromURL url: URL) async throws -> T {
         let urlRequest = URLRequest(url: url)
@@ -43,6 +43,12 @@ class Repository {
         makeNetworkRequest(fromURL: url, method: method, body: jsonBody)
     }
 
+    func deleteList(fromURL url: URL) {
+        var request = URLRequest(url:url)
+        request.httpMethod = "DELETE"
+        network.executeRequest(request: request)
+    }
+    
     
     func makeNetworkRequest(fromURL url: URL, method: String, body: Data) {
         var request = URLRequest(url: url)
