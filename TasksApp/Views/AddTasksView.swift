@@ -15,14 +15,28 @@ struct AddTasksView: View {
     @State var title = ""
     @State var listSelected = 0
     @EnvironmentObject var viewModel: ViewModel
+    @State var isTitleEmpty = false
     
     
     var body: some View {
         ZStack{
             Color("BackgroundColor").ignoresSafeArea()
             VStack(spacing: 50){
-                Text("New Task").foregroundColor(Color.white).font(.system(size: 30)).bold().padding(.vertical,30)
-                TextField("Title", text: $title).padding().background(Color("ListButtonColor")).frame(width: 250).cornerRadius(10).foregroundColor(Color.white).environment(\.colorScheme, .dark)
+                Text("New Task")
+                    .foregroundColor(Color.white)
+                    .font(.system(size: 30))
+                    .bold()
+                    .padding(.vertical,30)
+                TextField("Title", text: $title)
+                    .padding()
+                    .background(Color("ListButtonColor"))
+                    .frame(width: 250)
+                    .cornerRadius(10)
+                    .foregroundColor(Color.white)
+                    .environment(\.colorScheme, .dark)
+                Text("Please name the task")
+                    .opacity(isTitleEmpty ? 1 : 0)
+                    .foregroundColor(Color.gray)
                 Picker(selection: $listSelected) {
                     ForEach(viewModel.lists.indices, id: \.self){ index in
                         Text(viewModel.lists[index].title).tag(index)
@@ -33,7 +47,11 @@ struct AddTasksView: View {
                 Button {
                     addTask()
                 } label: {
-                    Text("Add").padding(.horizontal,100).padding().foregroundColor(Color.white).background(Color("AddButton")).cornerRadius(10)
+                    Text("Add")
+                        .padding(.horizontal,100)
+                        .padding()
+                        .foregroundColor(Color.white)
+                        .background(Color("AddButton")).cornerRadius(10)
                 }.padding(.vertical)
                 Spacer()
             }.environment(\.colorScheme, .dark)
@@ -42,8 +60,13 @@ struct AddTasksView: View {
     
     
     func addTask(){
-        viewModel.addTasks(newTaskName: title, index: listSelected)
-        title = ""
-        presentationMode.wrappedValue.dismiss()
+        if title != "" {
+            isTitleEmpty = false
+            viewModel.addTasks(newTaskName: title, index: listSelected)
+            title = ""
+            presentationMode.wrappedValue.dismiss()
+        } else {
+            isTitleEmpty = true
+        }
     }
 }
