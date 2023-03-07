@@ -20,6 +20,7 @@ struct AddListsView: View {
                            "ListColor4",
                            "ListColor5"]
     @EnvironmentObject var viewModel: ViewModel
+    @State var isEmpty = false
     
     var body: some View {
         ZStack{
@@ -44,6 +45,11 @@ struct AddListsView: View {
                         }
                     }.padding()
                 }.padding()
+                Text("Please write the title of the list and choose a color")
+                    .padding()
+                    .multilineTextAlignment(.center)
+                    .opacity(isEmpty ? 1 : 0)
+                    .foregroundColor(Color.gray)
                 Button {
                     addList()
                 } label: {
@@ -56,8 +62,13 @@ struct AddListsView: View {
     
     
     func addList(){
-        viewModel.addList(newListName: self.title, selectedColor: selectedColor)
-        title = ""
-        presentationMode.wrappedValue.dismiss()
+        if title != "" && selectedColor != "" {
+            isEmpty = false
+            viewModel.addList(newListName: self.title, selectedColor: selectedColor)
+            title = ""
+            presentationMode.wrappedValue.dismiss()
+        } else {
+            isEmpty = true
+        }
     }
 }

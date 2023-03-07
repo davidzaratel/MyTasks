@@ -57,7 +57,7 @@ struct ContentView: View {
                         .navigationBarItems( trailing: EditButton())
                     }
                     Spacer()
-                    BottomView()
+                    BottomView().padding(.top, 10)
                 }
             }
             .navigationTitle("My Tasks")
