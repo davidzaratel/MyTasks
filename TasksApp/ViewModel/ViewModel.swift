@@ -30,6 +30,7 @@ class ViewModel: ObservableObject {
                 isLoading = false
             } catch {
                 print("Error", error)
+                isLoading = false
             }
         }
     }
