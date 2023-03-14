@@ -32,8 +32,13 @@ struct User: Hashable, Codable, Identifiable  {
 }
 
 struct Constants {
-    static var listsURL: String = "http://localhost:3000/lists"
-    static var usersURL: String = "http://localhost:3000/users"
+    static var listsURL: URL? {
+        return URL(string: "http://localhost:3000/lists")
+    }
+    
+    static var usersURL: URL? {
+        return URL(string: "http://localhost:3000/users")
+    }
     static var availableColors: [String] = ["ListColor1",
                                    "ListColor2",
                                    "ListColor3",
