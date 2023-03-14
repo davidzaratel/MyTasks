@@ -39,9 +39,5 @@ struct Constants {
                                    "ListColor3",
                                    "ListColor4",
                                    "ListColor5"]
-    
-    static func getParamURL(url: String, params: String) -> String{
-        return url + "/" + params
-    }
 }
 
