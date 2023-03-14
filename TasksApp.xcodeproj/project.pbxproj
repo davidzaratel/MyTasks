@@ -21,8 +21,9 @@
 		198613EA29ACB02F00988EC9 /* AuthentificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 198613E929ACB02F00988EC9 /* AuthentificationView.swift */; };
 		198613EC29ACBFBF00988EC9 /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 198613EB29ACBFBF00988EC9 /* ViewModel.swift */; };
 		A50BF4FE29AF4FBE00A05338 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = A50BF4FD29AF4FBE00A05338 /* Network.swift */; };
-		A526005329B0E1A800B7C34D /* Repository.swift in Sources */ = {isa = PBXBuildFile; fileRef = A526005229B0E1A800B7C34D /* Repository.swift */; };
 		A526005529B0E81800B7C34D /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = A526005429B0E81800B7C34D /* Model.swift */; };
+		A5CA3E0029C06D8400E21C87 /* UserRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5CA3DFF29C06D8400E21C87 /* UserRepository.swift */; };
+		A5CA3E0229C06F2B00E21C87 /* ListRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5CA3E0129C06F2B00E21C87 /* ListRepository.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -60,8 +61,9 @@
 		198613E929ACB02F00988EC9 /* AuthentificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthentificationView.swift; sourceTree = "<group>"; };
 		198613EB29ACBFBF00988EC9 /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
 		A50BF4FD29AF4FBE00A05338 /* Network.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
-		A526005229B0E1A800B7C34D /* Repository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Repository.swift; sourceTree = "<group>"; };
 		A526005429B0E81800B7C34D /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
+		A5CA3DFF29C06D8400E21C87 /* UserRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRepository.swift; sourceTree = "<group>"; };
+		A5CA3E0129C06F2B00E21C87 /* ListRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListRepository.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -116,7 +118,7 @@
 				A526005D29B0F76B00B7C34D /* ViewModel */,
 				A526005629B0F6E600B7C34D /* Views */,
 				A526005B29B0F73600B7C34D /* Model */,
-				A526005C29B0F74B00B7C34D /* Repository */,
+				A526005C29B0F74B00B7C34D /* Repositories */,
 				A526005829B0F71400B7C34D /* Network */,
 				198613B529A4B93800988EC9 /* Assets.xcassets */,
 				198613B729A4B93800988EC9 /* Preview Content */,
@@ -178,12 +180,13 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
-		A526005C29B0F74B00B7C34D /* Repository */ = {
+		A526005C29B0F74B00B7C34D /* Repositories */ = {
 			isa = PBXGroup;
 			children = (
-				A526005229B0E1A800B7C34D /* Repository.swift */,
+				A5CA3DFF29C06D8400E21C87 /* UserRepository.swift */,
+				A5CA3E0129C06F2B00E21C87 /* ListRepository.swift */,
 			);
-			path = Repository;
+			path = Repositories;
 			sourceTree = "<group>";
 		};
 		A526005D29B0F76B00B7C34D /* ViewModel */ = {
@@ -331,10 +334,11 @@
 				198613B229A4B93700988EC9 /* TasksAppApp.swift in Sources */,
 				A50BF4FE29AF4FBE00A05338 /* Network.swift in Sources */,
 				198613E829A5175C00988EC9 /* AddListsView.swift in Sources */,
-				A526005329B0E1A800B7C34D /* Repository.swift in Sources */,
 				A526005529B0E81800B7C34D /* Model.swift in Sources */,
 				198613DE29A4EE7300988EC9 /* TasksView.swift in Sources */,
+				A5CA3E0029C06D8400E21C87 /* UserRepository.swift in Sources */,
 				198613EA29ACB02F00988EC9 /* AuthentificationView.swift in Sources */,
+				A5CA3E0229C06F2B00E21C87 /* ListRepository.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -74,7 +74,7 @@ struct AutentificationView: View {
                 }
             }.onAppear {
                 Task {
-                    await viewModel.getData(urlString: Constants.usersURL)
+                    await viewModel.getUsersData()
                 }
             }
         }
