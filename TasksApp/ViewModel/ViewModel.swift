@@ -22,7 +22,7 @@ class ViewModel: ObservableObject {
         isLoading = true
         Task {
             do {
-                self.lists = try await listRepository.fetchData()
+                self.lists = try await listRepository.getAllLists()
                 isLoading = false
             } catch {
                 print("Error", error)
@@ -36,7 +36,7 @@ class ViewModel: ObservableObject {
         isLoading = true
         Task {
             do {
-                self.users = try await userRepository.fetchData()
+                self.users = try await userRepository.getAllUsers()
                 isLoading = false
             } catch {
                 print("Error", error)
@@ -59,14 +59,14 @@ class ViewModel: ObservableObject {
                                 id: UUID().uuidString,
                                 title: selectedColor)
                                 )
-        listRepository.postList(newList: newList)
+        listRepository.addList(newList: newList)
         self.lists.append(newList)
     }
     
     func deleteList(indexSet: IndexSet) {
         guard let index = indexSet.first else { return }
+        listRepository.removeList(id: String(self.lists[index].id))
         self.lists.remove(atOffsets: indexSet)
-        listRepository.deleteList(id: String(self.lists[index].id))
     }
     
     func moveListOrder(indices: IndexSet, newOffset: Int){

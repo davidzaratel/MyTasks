@@ -10,11 +10,12 @@ import Foundation
 
 struct Network {
     
-    func fetchData(fromURL url:URL) async throws -> Data {
+    func fetchData<T:Codable> (fromURL url: URL) async throws -> T {
         let urlRequest = URLRequest(url: url)
         let (data, response) = try await URLSession.shared.data(for: urlRequest)
         guard (response as? HTTPURLResponse)?.statusCode == 200 else { fatalError("Error while fetching data") }
-        return data
+        let decodedLists = try JSONDecoder().decode(T.self, from: data)
+        return decodedLists
     }
     
     // MARK: Function that executes network requests
@@ -33,7 +34,7 @@ struct Network {
         }.resume()
     }
     
-    func makeNetworkRequest(fromURL url: URL, method: String, body: Data) {
+    func makeNetworkRequest(fromURL url: URL, method: String, body: Data? = nil) {
         var request = URLRequest(url: url)
         request.httpMethod = method
         request.httpBody = body

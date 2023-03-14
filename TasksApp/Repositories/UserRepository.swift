@@ -11,25 +11,23 @@ import Foundation
 struct UserRepository {
     private var network: Network = Network()
     
-    func fetchData() async throws -> [User] {
-        guard let url = URL(string: Constants.usersURL) else { return [] }
-        let data = try await network.fetchData(fromURL: url)
-        let decodedLists = try JSONDecoder().decode([User].self, from: data)
-        return decodedLists
+    func getAllUsers() async throws -> [User] {
+        guard let url = Constants.usersURL else { return [] }
+        return try await network.fetchData(fromURL: url)
     }
     
     func postUser(newUser: User) {
-        guard let url = URL(string: Constants.usersURL) else { return }
-        makeUserRequest(fromURL: url, method: "POST", newUser: newUser)
+        guard let url = Constants.usersURL else { return }
+        guard let jsonBody = createUserRequestBody(newUser: newUser) else { return }
+        network.makeNetworkRequest(fromURL: url, method: "POST", body: jsonBody)
     }
     
-    func makeUserRequest(fromURL url: URL, method: String, newUser: User) {
-        let body: [String: String] = [
-            "id": newUser.id,
-            "username": newUser.username,
-            "password": newUser.password
-        ]
-        guard let jsonBody = try? JSONSerialization.data(withJSONObject: body) else { return }
-        network.makeNetworkRequest(fromURL: url, method: method, body: jsonBody)
+    func createUserRequestBody(newUser: User) -> Data? {
+        do {
+            let jsonBody = try JSONEncoder().encode(newUser)
+            return jsonBody
+        } catch {
+            return nil
+        }
     }
 }
