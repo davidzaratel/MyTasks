@@ -14,11 +14,6 @@ struct AddListsView: View {
     @Environment(\.presentationMode) var presentationMode
     @State var title = ""
     @State var selectedColor = ""
-    let availableColors = ["ListColor1",
-                           "ListColor2",
-                           "ListColor3",
-                           "ListColor4",
-                           "ListColor5"]
     @EnvironmentObject var viewModel: ViewModel
     @State var isEmpty = false
     
@@ -30,7 +25,7 @@ struct AddListsView: View {
                 TextField("Title", text: $title).padding().background(Color("ListButtonColor")).frame(width: 250).cornerRadius(10).foregroundColor(Color.white).environment(\.colorScheme, .dark)
                 ScrollView(.horizontal, showsIndicators: false){
                     HStack(spacing: 20 ){
-                        ForEach(availableColors, id: \.self ){ color in
+                        ForEach(Constants.availableColors, id: \.self ){ color in
                             Button {
                                 self.selectedColor = color
                             } label: {
