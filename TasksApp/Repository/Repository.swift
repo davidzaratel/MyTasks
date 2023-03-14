@@ -49,6 +49,23 @@ class Repository {
         network.executeRequest(request: request)
     }
     
+    func moveList(from url: URL, lists: [ListItem]) {
+        guard let jsonBody = try? JSONSerialization.data(withJSONObject: lists.map {
+            [
+                "id": $0.id,
+                "title": $0.title,
+                "tasks": $0.tasks.map {[ "id": $0.id, "title": $0.title]},
+                "color": [ "id": $0.color.id ,
+                           "title": $0.color.title
+                         ]
+            ]
+        }, options: .prettyPrinted) else {
+            print("The traslation was not possible")
+            return
+        }
+        makeNetworkRequest(fromURL: url, method: "PUT", body: jsonBody)
+    }
+    
     
     func makeNetworkRequest(fromURL url: URL, method: String, body: Data) {
         var request = URLRequest(url: url)

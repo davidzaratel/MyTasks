@@ -13,18 +13,17 @@ struct ListItem: Hashable, Codable, Identifiable {
     var title: String
     var tasks: [TaskItem]
     var color: ColorItem
-}
+    
+    struct TaskItem: Hashable, Codable, Identifiable {
+        var id : String
+        var title: String
+    }
 
-struct TaskItem: Hashable, Codable, Identifiable {
-    var id : String
-    var title: String
+    struct ColorItem: Hashable, Codable, Identifiable {
+        var id : String
+        var title: String
+    }
 }
-
-struct ColorItem: Hashable, Codable, Identifiable {
-    var id : String
-    var title: String
-}
-
 struct User: Hashable, Codable, Identifiable  {
     var id: String
     var username: String
