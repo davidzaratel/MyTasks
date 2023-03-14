@@ -10,8 +10,8 @@ import Foundation
 
 struct Network {
     
-    // MARK: Function that fetches Any type of data
-    func fetchData(urlRequest: URLRequest) async throws -> Data {
+    func fetchData(fromURL url:URL) async throws -> Data {
+        let urlRequest = URLRequest(url: url)
         let (data, response) = try await URLSession.shared.data(for: urlRequest)
         guard (response as? HTTPURLResponse)?.statusCode == 200 else { fatalError("Error while fetching data") }
         return data
@@ -31,5 +31,13 @@ struct Network {
                 print(error)
             }
         }.resume()
+    }
+    
+    func makeNetworkRequest(fromURL url: URL, method: String, body: Data) {
+        var request = URLRequest(url: url)
+        request.httpMethod = method
+        request.httpBody = body
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        self.executeRequest(request: request)
     }
 }

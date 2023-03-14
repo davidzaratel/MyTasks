@@ -14,19 +14,15 @@ class ViewModel: ObservableObject {
     @Published private(set) var users: [User] = []
     @Published private(set) var lists: [ListItem] = []
     @Published private(set) var isLoading = false
-    @Published private(set) var repository: Repository = Repository()
+    @Published private(set) var listRepository: ListRepository = ListRepository()
+    @Published private(set) var userRepository: UserRepository = UserRepository()
     
     @MainActor
-    func getData(urlString: String) async {
-        guard let url = URL(string: urlString) else { return }
+    func getListsData() async {
         isLoading = true
         Task {
             do {
-                if urlString == Constants.usersURL {
-                    users = try await repository.fetchData(fromURL: url)
-                } else {
-                    lists = try await repository.fetchData(fromURL: url)
-                }
+                self.lists = try await listRepository.fetchData()
                 isLoading = false
             } catch {
                 print("Error", error)
@@ -35,10 +31,24 @@ class ViewModel: ObservableObject {
         }
     }
     
+    @MainActor
+    func getUsersData() async {
+        isLoading = true
+        Task {
+            do {
+                self.users = try await userRepository.fetchData()
+                isLoading = false
+            } catch {
+                print("Error", error)
+                isLoading = false
+            }
+        }
+    }
+    
+    
     func postNewUser(id: String, username: String, password: String) {
         let newUser = User(id: id, username: username, password: password)
-        guard let url = URL(string: Constants.usersURL) else { return }
-        repository.makeUserRequest(fromURL: url, method:"POST", newUser: newUser)
+        userRepository.postUser(newUser: newUser)
     }
     
     func addList(newListName: String, selectedColor: String){
@@ -49,17 +59,14 @@ class ViewModel: ObservableObject {
                                 id: UUID().uuidString,
                                 title: selectedColor)
                                 )
-        guard let url = URL(string: Constants.listsURL) else { return }
-        repository.makeListRequest(fromURL: url, method: "POST", newListItem: newList)
+        listRepository.postList(newList: newList)
         self.lists.append(newList)
     }
     
     func deleteList(indexSet: IndexSet) {
         guard let index = indexSet.first else { return }
-        guard let url = URL(string: Constants.getParamURL(url: Constants.listsURL, params: String(self.lists[index].id)))
-        else { return }
         self.lists.remove(atOffsets: indexSet)
-        repository.deleteList(fromURL: url)
+        listRepository.deleteList(id: String(self.lists[index].id))
     }
     
     func moveListOrder(indices: IndexSet, newOffset: Int){
@@ -69,19 +76,16 @@ class ViewModel: ObservableObject {
     func addTasks(newTaskName: String, index: Int){
         let newTask = TaskItem(id: UUID().uuidString, title: newTaskName)
         self.lists[index].tasks.append(newTask)
-        guard let url = URL(string: Constants.getParamURL(url: Constants.listsURL, params: self.lists[index].id)) else { return }
-        repository.makeListRequest(fromURL: url, method: "PUT", newListItem: self.lists[index])
+        listRepository.updateTasks(updatedList: self.lists[index])
     }
     
     func deleteTasks(indexSet: IndexSet, index: Int){
         self.lists[index].tasks.remove(atOffsets: indexSet)
-        guard let url = URL(string: Constants.getParamURL(url: Constants.listsURL, params: self.lists[index].id)) else { return }
-        repository.makeListRequest(fromURL: url, method: "PUT", newListItem: self.lists[index])
+        listRepository.updateTasks(updatedList: self.lists[index])
     }
     
     func moveTaskOrder(indices: IndexSet, newOffset: Int, index: Int){
         self.lists[index].tasks.move(fromOffsets: indices, toOffset: newOffset)
-        guard let url = URL(string: Constants.getParamURL(url: Constants.listsURL, params: self.lists[index].id)) else { return }
-        repository.makeListRequest(fromURL: url, method: "PUT", newListItem: self.lists[index])
+        listRepository.updateTasks(updatedList: self.lists[index])
     }
 }
