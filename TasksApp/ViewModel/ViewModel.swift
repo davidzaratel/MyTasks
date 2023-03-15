@@ -14,8 +14,8 @@ class ViewModel: ObservableObject {
     @Published private(set) var users: [User] = []
     @Published private(set) var lists: [ListItem] = []
     @Published private(set) var isLoading = false
-    @Published private(set) var listRepository: ListRepository = ListRepository()
-    @Published private(set) var userRepository: UserRepository = UserRepository()
+    private(set) var listRepository: ListRepository = ListRepository()
+    private(set) var userRepository: UserRepository = UserRepository()
     
     @MainActor
     func getListsData() async {
