@@ -10,7 +10,7 @@ import Foundation
 
 protocol UserRepositoryProtocol {
     
-    var network: Network { get }
+    var network: NetworkProtocol { get }
     
     func getAllUsers() async throws -> [User]
     
@@ -20,7 +20,7 @@ protocol UserRepositoryProtocol {
 }
 
 protocol ListRepositoryProtocol {
-    var network: Network { get }
+    var network: NetworkProtocol { get }
     
     func getAllLists() async throws -> [ListItem]
     
@@ -47,8 +47,8 @@ protocol ViewModelProtocol: ObservableObject {
     var users: [User] { get }
     var lists: [ListItem] { get }
     var isLoading: Bool { get }
-    var listRepository: ListRepository { get }
-    var userRepository: UserRepository { get }
+    var listRepository: ListRepositoryProtocol { get }
+    var userRepository: UserRepositoryProtocol { get }
     
     @MainActor
     func getListsData() async

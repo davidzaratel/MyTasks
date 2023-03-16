@@ -8,7 +8,7 @@
 import Foundation
 
 struct ListRepository: ListRepositoryProtocol{
-    var network: Network
+    var network: NetworkProtocol
     
     init(network: Network) {
         self.network = network
