@@ -14,8 +14,8 @@ class ViewModel: ViewModelProtocol {
     @Published private(set) var users: [User]
     @Published private(set) var lists: [ListItem]
     @Published private(set) var isLoading: Bool
-    private(set) var listRepository: ListRepository
-    private(set) var userRepository: UserRepository
+    private(set) var listRepository: ListRepositoryProtocol
+    private(set) var userRepository: UserRepositoryProtocol
     
     init(users: [User],
          lists: [ListItem],

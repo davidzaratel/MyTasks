@@ -9,7 +9,7 @@ import Foundation
 
 
 struct UserRepository: UserRepositoryProtocol {
-    var network: Network
+    var network: NetworkProtocol
     
     init(network: Network) {
         self.network = network
