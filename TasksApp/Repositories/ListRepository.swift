@@ -7,8 +7,8 @@
 
 import Foundation
 
-struct ListRepository {
-    private var network: Network = Network()
+struct ListRepository: ListRepositoryProtocol{
+    var network: Network = Network()
     
     func getAllLists() async throws -> [ListItem] {
         guard let url = Constants.listsURL else { return [] }

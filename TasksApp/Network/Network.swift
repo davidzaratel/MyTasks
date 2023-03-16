@@ -8,7 +8,7 @@
 import Foundation
 
 
-struct Network {
+struct Network: NetworkProtocol {
     
     func fetchData<T:Codable> (fromURL url: URL) async throws -> T {
         let urlRequest = URLRequest(url: url)
