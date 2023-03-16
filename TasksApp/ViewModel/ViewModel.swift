@@ -11,11 +11,23 @@ import SwiftUI
 ///View Model of the Class, contains the lists of Tasks of the User
 class ViewModel: ObservableObject {
     
-    @Published private(set) var users: [User] = []
-    @Published private(set) var lists: [ListItem] = []
-    @Published private(set) var isLoading = false
-    private(set) var listRepository: ListRepository = ListRepository()
-    private(set) var userRepository: UserRepository = UserRepository()
+    @Published private(set) var users: [User]
+    @Published private(set) var lists: [ListItem]
+    @Published private(set) var isLoading: Bool
+    private(set) var listRepository: ListRepository
+    private(set) var userRepository: UserRepository
+    
+    init(users: [User],
+         lists: [ListItem],
+         isLoading: Bool,
+         listRepository: ListRepository,
+         userRepository: UserRepository) {
+        self.users = users
+        self.lists = lists
+        self.isLoading = isLoading
+        self.listRepository = listRepository
+        self.userRepository = userRepository
+    }
     
     @MainActor
     func getListsData() async {

@@ -11,7 +11,12 @@ import SwiftUI
 struct TasksAppApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentView(viewModel: ViewModel(users: [],
+                                             lists: [],
+                                             isLoading: false,
+                                             listRepository: ListRepository(network: Network()),
+                                             userRepository: UserRepository(network: Network())
+                                             ))
         }
     }
 }

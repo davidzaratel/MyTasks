@@ -11,8 +11,7 @@ import SwiftUI
 ///AuthentificationView: In this UIView the user will be able to log in
 struct AutentificationView: View {
     
-    @StateObject var viewModel: ViewModel = ViewModel()
-    
+    @StateObject var viewModel: ViewModel
     @State var username = ""
     @State var password = ""
     @State var loggedIn = false
@@ -103,7 +102,12 @@ struct AutentificationView: View {
 
 struct Authentification_Previews: PreviewProvider {
     static var previews: some View {
-        AutentificationView()
+        AutentificationView(viewModel: ViewModel(users: [],
+                                                 lists: [],
+                                                 isLoading: false,
+                                                 listRepository: ListRepository(network: Network()),
+                                                 userRepository: UserRepository(network: Network())
+                                                 ))
     }
 }
 
