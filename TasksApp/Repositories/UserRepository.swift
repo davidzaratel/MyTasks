@@ -9,7 +9,11 @@ import Foundation
 
 
 struct UserRepository: UserRepositoryProtocol {
-    var network: Network = Network()
+    var network: Network
+    
+    init(network: Network) {
+        self.network = network
+    }
     
     func getAllUsers() async throws -> [User] {
         guard let url = Constants.usersURL else { return [] }

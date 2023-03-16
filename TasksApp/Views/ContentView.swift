@@ -9,7 +9,8 @@ import SwiftUI
 
 struct ContentView: View {
     
-    @StateObject var viewModel: ViewModel = ViewModel()
+    @StateObject var viewModel: ViewModel
+    
     @State var searchList = ""
     var listsFiltered : [ListItem] {
         return self.searchList == "" ? viewModel.lists :
@@ -73,7 +74,11 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
-        
+        ContentView(viewModel: ViewModel(users: [],
+                                         lists: [],
+                                         isLoading: false,
+                                         listRepository: ListRepository(network: Network()),
+                                         userRepository: UserRepository(network: Network())
+                                         ))
     }
 }
