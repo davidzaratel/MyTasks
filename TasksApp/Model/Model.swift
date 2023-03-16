@@ -46,3 +46,7 @@ struct Constants {
                                    "ListColor5"]
 }
 
+enum errorMessages: LocalizedError {
+    case networkError
+}
+
