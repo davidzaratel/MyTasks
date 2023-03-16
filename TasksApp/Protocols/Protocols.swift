@@ -41,3 +41,27 @@ protocol NetworkProtocol {
     
     func makeNetworkRequest(fromURL url: URL, method: String, body: Data?)
 }
+
+protocol ViewModelProtocol: ObservableObject {
+    var listRepository: ListRepository { get }
+    var userRepository: UserRepository { get }
+    
+    @MainActor
+    func getListsData() async
+    @MainActor
+    func getUsersData() async
+    
+    func postNewUser(id: String, username: String, password: String)
+    
+    func addList(newListName: String, selectedColor: String)
+    
+    func deleteList(indexSet: IndexSet)
+    
+    func moveListOrder(indices: IndexSet, newOffset: Int)
+    
+    func addTasks(newTaskName: String, index: Int)
+    
+    func deleteTasks(indexSet: IndexSet, index: Int)
+    
+    func moveTaskOrder(indices: IndexSet, newOffset: Int, index: Int)
+}
