@@ -8,8 +8,8 @@
 import Foundation
 
 
-struct UserRepository {
-    private var network: Network = Network()
+struct UserRepository: UserRepositoryProtocol {
+    var network: Network = Network()
     
     func getAllUsers() async throws -> [User] {
         guard let url = Constants.usersURL else { return [] }

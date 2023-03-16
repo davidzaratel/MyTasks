@@ -24,6 +24,7 @@
 		A526005529B0E81800B7C34D /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = A526005429B0E81800B7C34D /* Model.swift */; };
 		A5CA3E0029C06D8400E21C87 /* UserRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5CA3DFF29C06D8400E21C87 /* UserRepository.swift */; };
 		A5CA3E0229C06F2B00E21C87 /* ListRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5CA3E0129C06F2B00E21C87 /* ListRepository.swift */; };
+		A5D952F229C32D7800DD90F7 /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5D952F129C32D7800DD90F7 /* Protocols.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -64,6 +65,7 @@
 		A526005429B0E81800B7C34D /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 		A5CA3DFF29C06D8400E21C87 /* UserRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRepository.swift; sourceTree = "<group>"; };
 		A5CA3E0129C06F2B00E21C87 /* ListRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListRepository.swift; sourceTree = "<group>"; };
+		A5D952F129C32D7800DD90F7 /* Protocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Protocols.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -115,6 +117,7 @@
 			isa = PBXGroup;
 			children = (
 				198613B129A4B93700988EC9 /* TasksAppApp.swift */,
+				A5D952F029C32D5500DD90F7 /* Protocols */,
 				A526005D29B0F76B00B7C34D /* ViewModel */,
 				A526005629B0F6E600B7C34D /* Views */,
 				A526005B29B0F73600B7C34D /* Model */,
@@ -195,6 +198,14 @@
 				198613EB29ACBFBF00988EC9 /* ViewModel.swift */,
 			);
 			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		A5D952F029C32D5500DD90F7 /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				A5D952F129C32D7800DD90F7 /* Protocols.swift */,
+			);
+			path = Protocols;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -336,6 +347,7 @@
 				198613E829A5175C00988EC9 /* AddListsView.swift in Sources */,
 				A526005529B0E81800B7C34D /* Model.swift in Sources */,
 				198613DE29A4EE7300988EC9 /* TasksView.swift in Sources */,
+				A5D952F229C32D7800DD90F7 /* Protocols.swift in Sources */,
 				A5CA3E0029C06D8400E21C87 /* UserRepository.swift in Sources */,
 				198613EA29ACB02F00988EC9 /* AuthentificationView.swift in Sources */,
 				A5CA3E0229C06F2B00E21C87 /* ListRepository.swift in Sources */,
