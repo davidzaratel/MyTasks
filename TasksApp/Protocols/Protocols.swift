@@ -43,6 +43,10 @@ protocol NetworkProtocol {
 }
 
 protocol ViewModelProtocol: ObservableObject {
+    
+    var users: [User] { get }
+    var lists: [ListItem] { get }
+    var isLoading: Bool { get }
     var listRepository: ListRepository { get }
     var userRepository: UserRepository { get }
     
