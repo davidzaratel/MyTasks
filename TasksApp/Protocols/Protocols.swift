@@ -39,7 +39,7 @@ protocol NetworkProtocol {
     
 }
 
-protocol ViewModelProtocol: ObservableObject {
+protocol ViewModelProtocol {
     
     var users: [User] { get }
     var lists: [ListItem] { get }

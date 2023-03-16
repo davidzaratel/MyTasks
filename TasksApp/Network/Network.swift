@@ -15,6 +15,7 @@ struct Network: NetworkProtocol {
         let (data, response) = try await URLSession.shared.data(for: urlRequest)
         guard (response as? HTTPURLResponse)?.statusCode == 200 else { throw errorMessages.networkError }
         let decodedLists = try JSONDecoder().decode(T.self, from: data)
+        print(decodedLists)
         return decodedLists
     }
     
