@@ -8,9 +8,8 @@
 import Foundation
 @testable import TasksApp
 
-struct ListRepositoryMock: ListRepositoryProtocol {
-    var network: TasksApp.NetworkProtocol
-    
+struct MockListRepository: ListRepository {
+        
     func getAllLists() async throws -> [ListItem] {
         return []
     }

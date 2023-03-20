@@ -10,7 +10,7 @@ import XCTest
 
 final class NetworkTests: XCTestCase {
     
-    var networkMock = NetworkMock()
+    var networkMock = MockNetwork()
 
     override func setUpWithError() throws {
 

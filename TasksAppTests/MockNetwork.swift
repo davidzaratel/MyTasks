@@ -18,7 +18,7 @@ enum NetworkCases {
     case failure
 }
 
-struct NetworkMock: NetworkProtocol {
+struct MockNetwork: NetworkProtocol {
     
     var networkCase: NetworkCases = .success
     var returnType: ReturnType = .list

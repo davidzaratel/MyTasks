@@ -8,16 +8,16 @@
 import Foundation
 @testable import TasksApp
 
-struct ViewModelMock: ViewModelProtocol {
+struct MockViewModel: ViewModelProtocol {
     var users: [User]
     
     var lists: [ListItem]
     
     var isLoading: Bool
     
-    var listRepository: ListRepositoryProtocol
+    var listRepository: ListRepository
     
-    var userRepository: UserRepositoryProtocol
+    var userRepository: UserRepository
     
     func getListsData() async {
         

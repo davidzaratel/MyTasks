@@ -8,20 +8,17 @@
 import Foundation
 @testable import TasksApp
 
-struct UsersRepositoryMock: UserRepositoryProtocol{
-    var network: TasksApp.NetworkProtocol
-    
+struct MockUsersRepository: UserRepository {
+        
     func getAllUsers() async throws -> [User] {
         return []
     }
     
-    func postUser(newUser: User) {
+    func addUser(newUser: User) {
         
     }
     
     func createUserRequestBody(newUser: User) -> Data? {
         return nil
     }
-    
-    
 }
