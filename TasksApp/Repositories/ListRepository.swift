@@ -7,7 +7,8 @@
 
 import Foundation
 
-struct ListRepository: ListRepositoryProtocol{
+struct WebListRepository: ListRepository {
+    
     var network: NetworkProtocol
     
     init(network: Network) {

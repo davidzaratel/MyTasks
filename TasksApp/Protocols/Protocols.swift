@@ -8,19 +8,15 @@
 import Foundation
 
 
-protocol UserRepositoryProtocol {
-    
-    var network: NetworkProtocol { get }
+protocol UserRepository {
     
     func getAllUsers() async throws -> [User]
     
-    func postUser(newUser: User)
+    func addUser(newUser: User)
     
-    func createUserRequestBody(newUser: User) -> Data?
 }
 
-protocol ListRepositoryProtocol {
-    var network: NetworkProtocol { get }
+protocol ListRepository {
     
     func getAllLists() async throws -> [ListItem]
     
@@ -30,16 +26,17 @@ protocol ListRepositoryProtocol {
     
     func updateTasks(updatedList: ListItem)
     
-    func createListRequestBody(newListItem: ListItem) -> Data?
 }
 
 
 protocol NetworkProtocol {
+    
     func fetchData<T:Codable> (fromURL url: URL) async throws -> T
     
     func executeRequest(request: URLRequest)
     
     func makeNetworkRequest(fromURL url: URL, method: String, body: Data?)
+    
 }
 
 protocol ViewModelProtocol: ObservableObject {
@@ -47,8 +44,8 @@ protocol ViewModelProtocol: ObservableObject {
     var users: [User] { get }
     var lists: [ListItem] { get }
     var isLoading: Bool { get }
-    var listRepository: ListRepositoryProtocol { get }
-    var userRepository: UserRepositoryProtocol { get }
+    var listRepository: ListRepository { get }
+    var userRepository: UserRepository { get }
     
     @MainActor
     func getListsData() async

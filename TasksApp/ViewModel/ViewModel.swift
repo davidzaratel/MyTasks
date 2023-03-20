@@ -11,20 +11,14 @@ import SwiftUI
 ///View Model of the Class, contains the lists of Tasks of the User
 class ViewModel: ViewModelProtocol {
     
-    @Published private(set) var users: [User]
-    @Published private(set) var lists: [ListItem]
-    @Published private(set) var isLoading: Bool
-    private(set) var listRepository: ListRepositoryProtocol
-    private(set) var userRepository: UserRepositoryProtocol
+    @Published private(set) var users: [User] = []
+    @Published private(set) var lists: [ListItem] = []
+    @Published private(set) var isLoading: Bool = false
+    private(set) var listRepository: ListRepository
+    private(set) var userRepository: UserRepository
     
-    init(users: [User],
-         lists: [ListItem],
-         isLoading: Bool,
-         listRepository: ListRepository,
+    init(listRepository: ListRepository,
          userRepository: UserRepository) {
-        self.users = users
-        self.lists = lists
-        self.isLoading = isLoading
         self.listRepository = listRepository
         self.userRepository = userRepository
     }
@@ -60,7 +54,7 @@ class ViewModel: ViewModelProtocol {
     
     func postNewUser(id: String, username: String, password: String) {
         let newUser = User(id: id, username: username, password: password)
-        userRepository.postUser(newUser: newUser)
+        userRepository.addUser(newUser: newUser)
     }
     
     func addList(newListName: String, selectedColor: String){

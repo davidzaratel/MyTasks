@@ -102,11 +102,9 @@ struct AutentificationView: View {
 
 struct Authentification_Previews: PreviewProvider {
     static var previews: some View {
-        AutentificationView(viewModel: ViewModel(users: [],
-                                                 lists: [],
-                                                 isLoading: false,
-                                                 listRepository: ListRepository(network: Network()),
-                                                 userRepository: UserRepository(network: Network())
+        let network = Network()
+        AutentificationView(viewModel: ViewModel(listRepository: WebListRepository(network: network),
+                                                 userRepository: WebUserRepository(network: network)
                                                  ))
     }
 }
