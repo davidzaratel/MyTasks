@@ -8,7 +8,8 @@
 import Foundation
 
 
-struct UserRepository: UserRepositoryProtocol {
+struct WebUserRepository: UserRepository {
+    
     var network: NetworkProtocol
     
     init(network: Network) {
@@ -20,7 +21,7 @@ struct UserRepository: UserRepositoryProtocol {
         return try await network.fetchData(fromURL: url)
     }
     
-    func postUser(newUser: User) {
+    func addUser(newUser: User) {
         guard let url = Constants.usersURL else { return }
         guard let jsonBody = createUserRequestBody(newUser: newUser) else { return }
         network.makeNetworkRequest(fromURL: url, method: "POST", body: jsonBody)
