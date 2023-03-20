@@ -51,4 +51,3 @@ enum errorMessages: LocalizedError {
     case dataTranslationError
     case urlTransformationError
 }
-

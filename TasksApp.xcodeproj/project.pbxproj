@@ -25,11 +25,12 @@
 		A5CA3E0029C06D8400E21C87 /* UserRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5CA3DFF29C06D8400E21C87 /* UserRepository.swift */; };
 		A5CA3E0229C06F2B00E21C87 /* ListRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5CA3E0129C06F2B00E21C87 /* ListRepository.swift */; };
 		A5D952F229C32D7800DD90F7 /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5D952F129C32D7800DD90F7 /* Protocols.swift */; };
-		A5D9530129C35DA100DD90F7 /* Network_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5D9530029C35DA100DD90F7 /* Network_Tests.swift */; };
 		A5D9530329C35DE100DD90F7 /* NetworkMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5D9530229C35DE100DD90F7 /* NetworkMock.swift */; };
 		A5D9530529C36E2A00DD90F7 /* ListRepositoryMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5D9530429C36E2A00DD90F7 /* ListRepositoryMock.swift */; };
 		A5D9530729C36EF700DD90F7 /* UsersRepositoryMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5D9530629C36EF700DD90F7 /* UsersRepositoryMock.swift */; };
 		A5D9530929C36F5A00DD90F7 /* ViewModelMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5D9530829C36F5A00DD90F7 /* ViewModelMock.swift */; };
+		A5DBEFA529C8680400E4FCA0 /* NetworkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5DBEFA429C8680400E4FCA0 /* NetworkTests.swift */; };
+		A5DBEFA729C868FE00E4FCA0 /* RepositoriesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5DBEFA629C868FE00E4FCA0 /* RepositoriesTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -71,11 +72,12 @@
 		A5CA3DFF29C06D8400E21C87 /* UserRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRepository.swift; sourceTree = "<group>"; };
 		A5CA3E0129C06F2B00E21C87 /* ListRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListRepository.swift; sourceTree = "<group>"; };
 		A5D952F129C32D7800DD90F7 /* Protocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Protocols.swift; sourceTree = "<group>"; };
-		A5D9530029C35DA100DD90F7 /* Network_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network_Tests.swift; sourceTree = "<group>"; };
 		A5D9530229C35DE100DD90F7 /* NetworkMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMock.swift; sourceTree = "<group>"; };
 		A5D9530429C36E2A00DD90F7 /* ListRepositoryMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListRepositoryMock.swift; sourceTree = "<group>"; };
 		A5D9530629C36EF700DD90F7 /* UsersRepositoryMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsersRepositoryMock.swift; sourceTree = "<group>"; };
 		A5D9530829C36F5A00DD90F7 /* ViewModelMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelMock.swift; sourceTree = "<group>"; };
+		A5DBEFA429C8680400E4FCA0 /* NetworkTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkTests.swift; sourceTree = "<group>"; };
+		A5DBEFA629C868FE00E4FCA0 /* RepositoriesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepositoriesTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -151,7 +153,8 @@
 			isa = PBXGroup;
 			children = (
 				198613C229A4B93800988EC9 /* TasksAppTests.swift */,
-				A5D9530029C35DA100DD90F7 /* Network_Tests.swift */,
+				A5DBEFA429C8680400E4FCA0 /* NetworkTests.swift */,
+				A5DBEFA629C868FE00E4FCA0 /* RepositoriesTests.swift */,
 				A5D9530229C35DE100DD90F7 /* NetworkMock.swift */,
 				A5D9530429C36E2A00DD90F7 /* ListRepositoryMock.swift */,
 				A5D9530629C36EF700DD90F7 /* UsersRepositoryMock.swift */,
@@ -373,8 +376,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A5DBEFA529C8680400E4FCA0 /* NetworkTests.swift in Sources */,
 				A5D9530929C36F5A00DD90F7 /* ViewModelMock.swift in Sources */,
-				A5D9530129C35DA100DD90F7 /* Network_Tests.swift in Sources */,
+				A5DBEFA729C868FE00E4FCA0 /* RepositoriesTests.swift in Sources */,
 				A5D9530529C36E2A00DD90F7 /* ListRepositoryMock.swift in Sources */,
 				198613C329A4B93800988EC9 /* TasksAppTests.swift in Sources */,
 				A5D9530329C35DE100DD90F7 /* NetworkMock.swift in Sources */,

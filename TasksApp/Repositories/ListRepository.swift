@@ -11,7 +11,7 @@ struct WebListRepository: ListRepository {
     
     var network: NetworkProtocol
     
-    init(network: Network) {
+    init(network: NetworkProtocol) {
         self.network = network
     }
     
