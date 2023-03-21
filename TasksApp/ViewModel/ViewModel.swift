@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 
 ///View Model of the Class, contains the lists of Tasks of the User
-class ViewModel: ViewModelProtocol {
+class ViewModel: ViewModelProtocol, ObservableObject {
     
     @Published private(set) var users: [User] = []
     @Published private(set) var lists: [ListItem] = []

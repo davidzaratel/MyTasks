@@ -48,5 +48,6 @@ struct Constants {
 
 enum errorMessages: LocalizedError {
     case networkError
+    case dataTranslationError
+    case urlTransformationError
 }
-

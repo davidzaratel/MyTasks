@@ -12,7 +12,7 @@ struct WebUserRepository: UserRepository {
     
     var network: NetworkProtocol
     
-    init(network: Network) {
+    init(network: NetworkProtocol) {
         self.network = network
     }
     
