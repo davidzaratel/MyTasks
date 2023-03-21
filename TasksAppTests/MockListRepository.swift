@@ -9,9 +9,13 @@ import Foundation
 @testable import TasksApp
 
 struct MockListRepository: ListRepository {
+    
+    var mockNetwork: MockNetwork
+
         
     func getAllLists() async throws -> [ListItem] {
-        return []
+        guard let url = Constants.listsURL else { throw errorMessages.getDataRepositoryError }
+        return try await mockNetwork.fetchData(fromURL: url)
     }
     
     func addList(newList: ListItem) {
