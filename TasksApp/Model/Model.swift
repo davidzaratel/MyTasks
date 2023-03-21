@@ -50,4 +50,5 @@ enum errorMessages: LocalizedError {
     case networkError
     case dataTranslationError
     case urlTransformationError
+    case getDataRepositoryError
 }

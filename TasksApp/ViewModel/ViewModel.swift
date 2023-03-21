@@ -26,28 +26,24 @@ class ViewModel: ViewModelProtocol, ObservableObject {
     @MainActor
     func getListsData() async {
         isLoading = true
-        Task {
-            do {
-                self.lists = try await listRepository.getAllLists()
-                isLoading = false
-            } catch {
-                print("Error", error)
-                isLoading = false
-            }
+        do {
+            self.lists = try await listRepository.getAllLists()
+            isLoading = false
+        } catch {
+            print("Error", error)
+            isLoading = false
         }
     }
     
     @MainActor
     func getUsersData() async {
         isLoading = true
-        Task {
-            do {
-                self.users = try await userRepository.getAllUsers()
-                isLoading = false
-            } catch {
-                print("Error", error)
-                isLoading = false
-            }
+        do {
+            self.users = try await userRepository.getAllUsers()
+            isLoading = false
+        } catch {
+            print("Error", error)
+            isLoading = false
         }
     }
     

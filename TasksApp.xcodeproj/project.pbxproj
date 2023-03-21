@@ -22,6 +22,7 @@
 		198613EC29ACBFBF00988EC9 /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 198613EB29ACBFBF00988EC9 /* ViewModel.swift */; };
 		A50BF4FE29AF4FBE00A05338 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = A50BF4FD29AF4FBE00A05338 /* Network.swift */; };
 		A526005529B0E81800B7C34D /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = A526005429B0E81800B7C34D /* Model.swift */; };
+		A5371BC429C9A3DD00E1614B /* ViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5371BC329C9A3DD00E1614B /* ViewModelTests.swift */; };
 		A5CA3E0029C06D8400E21C87 /* WebUserRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5CA3DFF29C06D8400E21C87 /* WebUserRepository.swift */; };
 		A5CA3E0229C06F2B00E21C87 /* WebListRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5CA3E0129C06F2B00E21C87 /* WebListRepository.swift */; };
 		A5D952F229C32D7800DD90F7 /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5D952F129C32D7800DD90F7 /* Protocols.swift */; };
@@ -70,6 +71,7 @@
 		198613EB29ACBFBF00988EC9 /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
 		A50BF4FD29AF4FBE00A05338 /* Network.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
 		A526005429B0E81800B7C34D /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
+		A5371BC329C9A3DD00E1614B /* ViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelTests.swift; sourceTree = "<group>"; };
 		A5CA3DFF29C06D8400E21C87 /* WebUserRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebUserRepository.swift; sourceTree = "<group>"; };
 		A5CA3E0129C06F2B00E21C87 /* WebListRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebListRepository.swift; sourceTree = "<group>"; };
 		A5D952F129C32D7800DD90F7 /* Protocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Protocols.swift; sourceTree = "<group>"; };
@@ -162,6 +164,7 @@
 				A5D9530429C36E2A00DD90F7 /* MockListRepository.swift */,
 				A5D9530629C36EF700DD90F7 /* MockUsersRepository.swift */,
 				A5D9530829C36F5A00DD90F7 /* MockViewModel.swift */,
+				A5371BC329C9A3DD00E1614B /* ViewModelTests.swift */,
 			);
 			path = TasksAppTests;
 			sourceTree = "<group>";
@@ -384,6 +387,7 @@
 				A5DBEFA729C868FE00E4FCA0 /* WebListRepositoriesTests.swift in Sources */,
 				A5D9530529C36E2A00DD90F7 /* MockListRepository.swift in Sources */,
 				198613C329A4B93800988EC9 /* TasksAppTests.swift in Sources */,
+				A5371BC429C9A3DD00E1614B /* ViewModelTests.swift in Sources */,
 				A5D9530329C35DE100DD90F7 /* MockNetwork.swift in Sources */,
 				A5D9530729C36EF700DD90F7 /* MockUsersRepository.swift in Sources */,
 				A5DBEFA929C891F600E4FCA0 /* WebUserRepositoryTests.swift in Sources */,

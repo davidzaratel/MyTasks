@@ -9,6 +9,8 @@ import Foundation
 @testable import TasksApp
 
 struct MockUsersRepository: UserRepository {
+    
+    var mockNetwork: MockNetwork
         
     func getAllUsers() async throws -> [User] {
         return []
