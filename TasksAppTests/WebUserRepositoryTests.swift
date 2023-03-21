@@ -6,6 +6,7 @@
 //
 
 import XCTest
+import Mockingbird
 @testable import TasksApp
 
 final class WebUserRepositoryTests: XCTestCase {
@@ -34,18 +35,55 @@ final class WebUserRepositoryTests: XCTestCase {
         XCTAssertEqual(users, networkMock.usersData)
     }
     
-    func test_UsersRepository_getAllUserss_failure() async {
+    func test_UsersRepository_getAllUsers_failure() async {
         //Given
-        let listRepository = WebListRepository(network: MockNetwork(networkCase: .failure, returnType: .user))
+        let userRepository = WebListRepository(network: MockNetwork(networkCase: .failure, returnType: .user))
         //When
-        var lists: [ListItem] = []
+        var users: [ListItem] = []
         do {
-            lists = try await listRepository.getAllLists()
+            users = try await userRepository.getAllLists()
         } catch {
             
         }
         //Then
-        XCTAssertEqual(lists, [])
+        XCTAssertEqual(users, [])
+    }
+    
+    func test_UsersRepositoryMockingbird_getAllUsers_success() async {
+        //Given
+        guard let url = Constants.usersURL else { return }
+        let mockingbirdNetwork = mock(NetworkProtocol.self)
+        await given(mockingbirdNetwork.fetchData(fromURL: url)).willReturn(MockData.usersData)
+        
+        let userRepository = WebUserRepository(network: mockingbirdNetwork)
+        //When
+        var users: [User] = []
+        do {
+            users = try await userRepository.getAllUsers()
+        } catch {
+
+        }
+        //Then
+        XCTAssertEqual(users, MockData.usersData)
+    }
+    
+    func test_UsersRepositoryMockingbird_getAllUsers_failure() async {
+        //Given
+        guard let url = Constants.usersURL else { return }
+        let mockingbirdNetwork = mock(NetworkProtocol.self)
+        let emptyArray: [User] = []
+        await given(mockingbirdNetwork.fetchData(fromURL: url)).willReturn(emptyArray)
+        
+        let userRepository = WebUserRepository(network: mockingbirdNetwork)
+        //When
+        var users: [User] = []
+        do {
+            users = try await userRepository.getAllUsers()
+        } catch {
+
+        }
+        //Then
+        XCTAssertEqual(users, [])
     }
 
 }
