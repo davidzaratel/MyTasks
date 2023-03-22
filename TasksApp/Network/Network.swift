@@ -13,7 +13,8 @@ struct Network: NetworkProtocol {
     func fetchData<T:Codable> (fromURL url: URL) async throws -> T {
         let urlRequest = URLRequest(url: url)
         let (data, response) = try await URLSession.shared.data(for: urlRequest)
-        guard (response as? HTTPURLResponse)?.statusCode == 200 else { throw errorMessages.networkError }
+        guard (response as? HTTPURLResponse)?.statusCode == 200
+        else { throw NetworkErrors.unableToFetchData }
         let decodedLists = try JSONDecoder().decode(T.self, from: data)
         return decodedLists
     }
@@ -25,7 +26,7 @@ struct Network: NetworkProtocol {
                 return
             }
 
-            do{
+            do {
                 let response = try JSONDecoder().decode(ListItem.self, from: data)
                 print("REQUEST SUCCESS!", response)
             } catch {
