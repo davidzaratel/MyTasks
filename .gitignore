@@ -1,0 +1,17 @@
+# Generated
+*.generated.swift
+MockingbirdMocks/TasksAppTests-TasksAppMocks.generated.swift
+MockingbirdMocks/*.generated.swift
+
+# Binaries
+Pods/MockingbirdFramework/mockingbird/bin/
+
+# Caches
+**/*.xcodeproj/MockingbirdCache/
+TasksApp.xcworkspace/xcuserdata/A200198500.xcuserdatad/UserInterfaceState.xcuserstate
+
+
+MockingbirdSupport/
+Podfile
+Podfile.lock
+Pods/	

@@ -6,6 +6,7 @@
 //
 
 import XCTest
+import Mockingbird
 @testable import TasksApp
 
 final class NetworkTests: XCTestCase {
@@ -36,6 +37,7 @@ final class NetworkTests: XCTestCase {
         }
         //Then
         XCTAssertEqual(networkMock.listData, fetchedData)
+        XCTAssertEqual(url, Constants.listsURL)
     }
     
     func test_NetworkMock_fetchListData_failure() async {
@@ -52,6 +54,7 @@ final class NetworkTests: XCTestCase {
         }
         //Then
         XCTAssertEqual(fetchedData, [])
+        XCTAssertEqual(url, Constants.listsURL)
     }
     
     func test_NetworkMock_fetchUserData_success() async {
@@ -69,6 +72,7 @@ final class NetworkTests: XCTestCase {
         }
         //Then
         XCTAssertEqual(networkMock.usersData, fetchedData)
+        XCTAssertEqual(url, Constants.usersURL)
     }
     
     func test_NetworkMock_fetchUserData_failure() async {
@@ -85,7 +89,41 @@ final class NetworkTests: XCTestCase {
         }
         //Then
         XCTAssertEqual(fetchedData, [])
+        XCTAssertEqual(url, Constants.usersURL)
     }
+    
+    func test_NetworkMockingbird_fetchListData_success() async {
+        guard let url = Constants.listsURL else { return }
+        let mockingbirdNetwork = mock(NetworkProtocol.self)
+        var fetchedData: [ListItem] = []
+        await given(mockingbirdNetwork.fetchData(fromURL: url)).willReturn(MockData.listData)
+        do {
+            fetchedData = try await mockingbirdNetwork.fetchData(fromURL: url)
+        } catch {
 
+        }
+        
+        XCTAssertEqual(fetchedData, MockData.listData)
+        XCTAssertEqual(url, Constants.listsURL)
+    }
+    
+    func test_NetworkMockingbird_fetchUserData_success() async {
+        //Given
+        guard let url = Constants.usersURL else { return }
+        let mockingbirdNetwork = mock(NetworkProtocol.self)
+        var fetchedData: [User] = []
+        await given(mockingbirdNetwork.fetchData(fromURL: url)).willReturn(MockData.usersData)
+
+        //When
+        do {
+            fetchedData = try await mockingbirdNetwork.fetchData(fromURL: url)
+        } catch {
+
+        }
+        
+        //Then
+        XCTAssertEqual(fetchedData, MockData.usersData)
+        XCTAssertEqual(url, Constants.usersURL)
+    }
 
 }

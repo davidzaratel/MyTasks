@@ -6,6 +6,7 @@
 //
 
 import XCTest
+import Mockingbird
 @testable import TasksApp
 
 final class TasksAppTests: XCTestCase {
@@ -13,5 +14,4 @@ final class TasksAppTests: XCTestCase {
     override func setUp() {
         // Put setup code here. This method is called before the invocation of each test method in the class.
     }
-
 }
