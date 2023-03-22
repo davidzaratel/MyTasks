@@ -51,4 +51,5 @@ enum errorMessages: LocalizedError {
     case dataTranslationError
     case urlTransformationError
     case getDataRepositoryError
+    case unableToFetchData
 }

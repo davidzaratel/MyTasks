@@ -30,7 +30,7 @@ final class RepositoriesTests: XCTestCase {
         do {
             lists = try await listRepository.getAllLists()
         } catch {
-            
+            return XCTFail("Weren't able to get all lists")
         }
         //Then
         XCTAssertEqual(lists, MockData.listData)
@@ -38,31 +38,33 @@ final class RepositoriesTests: XCTestCase {
     
     func test_ListRepository_getAllLists_failure() async {
         //Given
+        var thrownError: Error?
         let listRepository = WebListRepository(network: MockNetwork(networkCase: .failure, returnType: .list))
         //When
         var lists: [ListItem] = []
         do {
             lists = try await listRepository.getAllLists()
         } catch {
-            
+            thrownError = error
         }
         //Then
         XCTAssertEqual(lists, [])
+        XCTAssertNotNil(thrownError)
     }
     
     func test_UsersRepositoryMockingbird_getAllLists_success() async {
         //Given
-        guard let url = Constants.listsURL else { return }
-        let mockingbirdNetwork = mock(NetworkProtocol.self)
-        await given(mockingbirdNetwork.fetchData(fromURL: url)).willReturn(MockData.listData)
+        let mockNetwork = mock(NetworkProtocol.self)
+        await given(mockNetwork.fetchData(fromURL: Constants.listsURL!))
+            .willReturn(MockData.listData)
         
-        let userRepository = WebListRepository(network: mockingbirdNetwork)
+        let userRepository = WebListRepository(network: mockNetwork)
         //When
         var lists: [ListItem] = []
         do {
             lists = try await userRepository.getAllLists()
         } catch {
-
+            return XCTFail("Weren't able to get all lists")
         }
         //Then
         XCTAssertEqual(lists, MockData.listData)
@@ -70,18 +72,18 @@ final class RepositoriesTests: XCTestCase {
     
     func test_UsersRepositoryMockingbird_getAllLists_failure() async {
         //Given
-        guard let url = Constants.listsURL else { return }
-        let mockingbirdNetwork = mock(NetworkProtocol.self)
+        let mockNetwork = mock(NetworkProtocol.self)
         let emptyArray: [ListItem] = []
-        await given(mockingbirdNetwork.fetchData(fromURL: url)).willReturn(emptyArray)
+        await given(mockNetwork.fetchData(fromURL: Constants.listsURL!))
+            .willReturn(emptyArray)
         
-        let listRepository = WebListRepository(network: mockingbirdNetwork)
+        let listRepository = WebListRepository(network: mockNetwork)
         //When
         var lists: [ListItem] = []
         do {
             lists = try await listRepository.getAllLists()
         } catch {
-
+            return XCTFail("Weren't able to get all lists")
         }
         //Then
         XCTAssertEqual(lists, [])
