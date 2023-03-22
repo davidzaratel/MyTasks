@@ -36,7 +36,7 @@ final class NetworkTests: XCTestCase {
             
         }
         //Then
-        XCTAssertEqual(networkMock.listData, fetchedData)
+        XCTAssertEqual(MockData.listData, fetchedData)
         XCTAssertEqual(url, Constants.listsURL)
     }
     
@@ -71,7 +71,7 @@ final class NetworkTests: XCTestCase {
             
         }
         //Then
-        XCTAssertEqual(networkMock.usersData, fetchedData)
+        XCTAssertEqual(MockData.usersData, fetchedData)
         XCTAssertEqual(url, Constants.usersURL)
     }
     
