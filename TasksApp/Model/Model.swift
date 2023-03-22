@@ -47,9 +47,12 @@ struct Constants {
 }
 
 enum errorMessages: LocalizedError {
-    case networkError
     case dataTranslationError
     case urlTransformationError
     case getDataRepositoryError
+}
+
+enum NetworkErrors: LocalizedError {
     case unableToFetchData
+    case executeRequestError
 }
