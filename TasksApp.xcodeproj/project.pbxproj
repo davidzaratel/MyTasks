@@ -179,14 +179,9 @@
 			isa = PBXGroup;
 			children = (
 				198613C229A4B93800988EC9 /* TasksAppTests.swift */,
-				A5DBEFA429C8680400E4FCA0 /* NetworkTests.swift */,
-				A5DBEFA629C868FE00E4FCA0 /* WebListRepositoriesTests.swift */,
-				A5DBEFA829C891F600E4FCA0 /* WebUserRepositoryTests.swift */,
-				A5D9530229C35DE100DD90F7 /* MockNetwork.swift */,
-				A5D9530429C36E2A00DD90F7 /* MockListRepository.swift */,
-				A5D9530629C36EF700DD90F7 /* MockUsersRepository.swift */,
-				A5D9530829C36F5A00DD90F7 /* MockViewModel.swift */,
-				A5371BC329C9A3DD00E1614B /* ViewModelTests.swift */,
+				A5FD113029CB3E90008646BA /* ViewModel */,
+				A5FD112E29CB3E6D008646BA /* Network */,
+				A5FD112D29CB3E4D008646BA /* Repositories */,
 				A5FD111F29C9F902008646BA /* MockData.swift */,
 			);
 			path = TasksAppTests;
@@ -271,6 +266,35 @@
 				A5D952F129C32D7800DD90F7 /* Protocols.swift */,
 			);
 			path = Protocols;
+			sourceTree = "<group>";
+		};
+		A5FD112D29CB3E4D008646BA /* Repositories */ = {
+			isa = PBXGroup;
+			children = (
+				A5DBEFA629C868FE00E4FCA0 /* WebListRepositoriesTests.swift */,
+				A5D9530429C36E2A00DD90F7 /* MockListRepository.swift */,
+				A5DBEFA829C891F600E4FCA0 /* WebUserRepositoryTests.swift */,
+				A5D9530629C36EF700DD90F7 /* MockUsersRepository.swift */,
+			);
+			path = Repositories;
+			sourceTree = "<group>";
+		};
+		A5FD112E29CB3E6D008646BA /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				A5DBEFA429C8680400E4FCA0 /* NetworkTests.swift */,
+				A5D9530229C35DE100DD90F7 /* MockNetwork.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		A5FD113029CB3E90008646BA /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				A5371BC329C9A3DD00E1614B /* ViewModelTests.swift */,
+				A5D9530829C36F5A00DD90F7 /* MockViewModel.swift */,
+			);
+			path = ViewModel;
 			sourceTree = "<group>";
 		};
 		FD2D11D72E762DC09B6E5897 /* Pods */ = {

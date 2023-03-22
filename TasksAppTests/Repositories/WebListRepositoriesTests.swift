@@ -52,7 +52,7 @@ final class RepositoriesTests: XCTestCase {
         XCTAssertNotNil(thrownError)
     }
     
-    func test_UsersRepositoryMockingbird_getAllLists_success() async {
+    func test_ListsRepositoryMockingbird_getAllLists_success() async {
         //Given
         let mockNetwork = mock(NetworkProtocol.self)
         await given(mockNetwork.fetchData(fromURL: Constants.listsURL!))
@@ -70,7 +70,7 @@ final class RepositoriesTests: XCTestCase {
         XCTAssertEqual(lists, MockData.listData)
     }
     
-    func test_UsersRepositoryMockingbird_getAllLists_failure() async {
+    func test_ListsRepositoryMockingbird_getAllLists_failure() async {
         //Given
         let mockNetwork = mock(NetworkProtocol.self)
         let emptyArray: [ListItem] = []
@@ -87,6 +87,18 @@ final class RepositoriesTests: XCTestCase {
         }
         //Then
         XCTAssertEqual(lists, [])
+    }
+    
+    func test_ListRepository_createListRequestBody() {
+        //Given
+        let webListRepository = WebListRepository(network: mock(NetworkProtocol.self))
+        
+        //When
+        let jsonBody = webListRepository.createListRequestBody(
+            newListItem: MockData.singleListData)
+        
+        //Then
+        XCTAssertNotNil(jsonBody)
     }
     
 }

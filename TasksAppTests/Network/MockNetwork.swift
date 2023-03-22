@@ -31,7 +31,7 @@ struct MockNetwork: NetworkProtocol {
             guard let listData = MockData.listData as? T else { throw errorMessages.dataTranslationError}
             return listData
         } else {
-            throw errorMessages.networkError
+            throw NetworkErrors.unableToFetchData
         }
     }
     

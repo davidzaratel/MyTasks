@@ -87,5 +87,17 @@ final class WebUserRepositoryTests: XCTestCase {
         //Then
         XCTAssertEqual(users, [])
     }
+    
+    func test_UsersRepository_createUserRequestBody() {
+        //Given
+        let webUserRepository = WebUserRepository(network: mock(NetworkProtocol.self))
+        
+        //When
+        let jsonBody = webUserRepository.createUserRequestBody(
+            newUser: MockData.singleUserData)
+        
+        //Then
+        XCTAssertNotNil(jsonBody)
+    }
 
 }
