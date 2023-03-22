@@ -91,7 +91,7 @@ struct AutentificationView: View {
             }
         } else {
             if fieldsCompleted {
-                viewModel.postNewUser(id: UUID().uuidString, username: self.username, password: self.password)
+                viewModel.createUser(id: UUID().uuidString, username: self.username, password: self.password)
                 loginMessage = "Registered correctly"
             } else {
                 self.loginMessage = "Please fill both fields"

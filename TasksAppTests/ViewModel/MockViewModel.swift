@@ -9,9 +9,9 @@ import Foundation
 @testable import TasksApp
 
 struct MockViewModel: ViewModelProtocol {
-    var users: [User]
+    var users: [TasksApp.User]
     
-    var lists: [ListItem]
+    var lists: [TasksApp.ListItem]
     
     var isLoading: Bool
     
@@ -27,7 +27,7 @@ struct MockViewModel: ViewModelProtocol {
         
     }
     
-    func postNewUser(id: String, username: String, password: String) {
+    func createUser(id: String, username: String, password: String) {
         
     }
     

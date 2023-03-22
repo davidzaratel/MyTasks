@@ -48,8 +48,9 @@ class ViewModel: ViewModelProtocol, ObservableObject {
     }
     
     
-    func postNewUser(id: String, username: String, password: String) {
+    func createUser(id: String, username: String, password: String) {
         let newUser = User(id: id, username: username, password: password)
+        users.append(newUser)
         userRepository.addUser(newUser: newUser)
     }
     
@@ -67,8 +68,10 @@ class ViewModel: ViewModelProtocol, ObservableObject {
     
     func deleteList(indexSet: IndexSet) {
         guard let index = indexSet.first else { return }
-        listRepository.removeList(id: String(self.lists[index].id))
-        self.lists.remove(atOffsets: indexSet)
+        if index < lists.count && index >= 0 {
+            listRepository.removeList(id: String(self.lists[index].id))
+            self.lists.remove(atOffsets: indexSet)
+        }
     }
     
     func moveListOrder(indices: IndexSet, newOffset: Int){
@@ -77,13 +80,18 @@ class ViewModel: ViewModelProtocol, ObservableObject {
     
     func addTasks(newTaskName: String, index: Int){
         let newTask = TaskItem(id: UUID().uuidString, title: newTaskName)
-        self.lists[index].tasks.append(newTask)
-        listRepository.updateTasks(updatedList: self.lists[index])
+        if index < self.lists.count && index >= 0 {
+            self.lists[index].tasks.append(newTask)
+            listRepository.updateTasks(updatedList: self.lists[index])
+        }
     }
     
     func deleteTasks(indexSet: IndexSet, index: Int){
-        self.lists[index].tasks.remove(atOffsets: indexSet)
-        listRepository.updateTasks(updatedList: self.lists[index])
+        guard let index = indexSet.first else { return }
+        if index < lists[index].tasks.count && index >= 0{
+            self.lists[index].tasks.remove(atOffsets: indexSet)
+            listRepository.updateTasks(updatedList: self.lists[index])
+        }
     }
     
     func moveTaskOrder(indices: IndexSet, newOffset: Int, index: Int){

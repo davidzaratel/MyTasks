@@ -38,6 +38,7 @@
 		A5DBEFA729C868FE00E4FCA0 /* WebListRepositoriesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5DBEFA629C868FE00E4FCA0 /* WebListRepositoriesTests.swift */; };
 		A5DBEFA929C891F600E4FCA0 /* WebUserRepositoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5DBEFA829C891F600E4FCA0 /* WebUserRepositoryTests.swift */; };
 		A5FD112029C9F902008646BA /* MockData.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5FD111F29C9F902008646BA /* MockData.swift */; };
+		A5FD113229CB4A15008646BA /* ViewModelInteractions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5FD113129CB4A15008646BA /* ViewModelInteractions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -95,6 +96,7 @@
 		A5DBEFA629C868FE00E4FCA0 /* WebListRepositoriesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebListRepositoriesTests.swift; sourceTree = "<group>"; };
 		A5DBEFA829C891F600E4FCA0 /* WebUserRepositoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebUserRepositoryTests.swift; sourceTree = "<group>"; };
 		A5FD111F29C9F902008646BA /* MockData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockData.swift; sourceTree = "<group>"; };
+		A5FD113129CB4A15008646BA /* ViewModelInteractions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelInteractions.swift; sourceTree = "<group>"; };
 		CF2D315F1683F1E2B1607165 /* Pods_TasksApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TasksApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D8D12AA919F4E3541999A2F9 /* Pods-TasksApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TasksApp.debug.xcconfig"; path = "Target Support Files/Pods-TasksApp/Pods-TasksApp.debug.xcconfig"; sourceTree = "<group>"; };
 		FDD4FB57EE55E6D8BB98921F /* Pods-TasksApp-TasksAppUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TasksApp-TasksAppUITests.release.xcconfig"; path = "Target Support Files/Pods-TasksApp-TasksAppUITests/Pods-TasksApp-TasksAppUITests.release.xcconfig"; sourceTree = "<group>"; };
@@ -293,6 +295,7 @@
 			children = (
 				A5371BC329C9A3DD00E1614B /* ViewModelTests.swift */,
 				A5D9530829C36F5A00DD90F7 /* MockViewModel.swift */,
+				A5FD113129CB4A15008646BA /* ViewModelInteractions.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -568,6 +571,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A5DBEFA529C8680400E4FCA0 /* NetworkTests.swift in Sources */,
+				A5FD113229CB4A15008646BA /* ViewModelInteractions.swift in Sources */,
 				A5D9530929C36F5A00DD90F7 /* MockViewModel.swift in Sources */,
 				A5DBEFA729C868FE00E4FCA0 /* WebListRepositoriesTests.swift in Sources */,
 				A5D9530529C36E2A00DD90F7 /* MockListRepository.swift in Sources */,
