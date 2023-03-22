@@ -26,104 +26,104 @@ final class NetworkTests: XCTestCase {
         //Given
         networkMock.networkCase = NetworkCases.success
         networkMock.returnType = .list
-        guard let url = Constants.listsURL else { return }
         //When
         var fetchedData: [ListItem] = []
         
         do {
-            fetchedData = try await networkMock.fetchData(fromURL: url)
+            fetchedData = try await networkMock.fetchData(fromURL: Constants.listsURL!)
         } catch {
-            
+            return XCTFail("Weren't able to fetch data")
         }
         //Then
         XCTAssertEqual(MockData.listData, fetchedData)
-        XCTAssertEqual(url, Constants.listsURL)
     }
     
     func test_NetworkMock_fetchListData_failure() async {
         //Given
+        var thrownError: Error?
         networkMock.networkCase = NetworkCases.failure
-        guard let url = Constants.listsURL else { return }
         //When
         var fetchedData: [ListItem] = []
         
         do {
-            fetchedData = try await networkMock.fetchData(fromURL: url)
+            fetchedData = try await networkMock.fetchData(fromURL: Constants.listsURL!)
         } catch {
-            
+            thrownError = error
         }
         //Then
         XCTAssertEqual(fetchedData, [])
-        XCTAssertEqual(url, Constants.listsURL)
+        XCTAssertNotNil(thrownError)
     }
     
     func test_NetworkMock_fetchUserData_success() async {
         //Given
         networkMock.networkCase = NetworkCases.success
         networkMock.returnType = .user
-        guard let url = Constants.usersURL else { return }
         //When
         var fetchedData: [User] = []
         
         do {
-            fetchedData = try await networkMock.fetchData(fromURL: url)
+            fetchedData = try await networkMock.fetchData(fromURL: Constants.usersURL!)
         } catch {
-            
+            return XCTFail("Weren't able to fetch data")
         }
         //Then
         XCTAssertEqual(MockData.usersData, fetchedData)
-        XCTAssertEqual(url, Constants.usersURL)
     }
     
     func test_NetworkMock_fetchUserData_failure() async {
         //Given
+        var thrownError: Error?
         networkMock.networkCase = NetworkCases.failure
-        guard let url = Constants.usersURL else { return }
         //When
         var fetchedData: [User] = []
         
         do {
-            fetchedData = try await networkMock.fetchData(fromURL: url)
+            fetchedData = try await networkMock.fetchData(fromURL: Constants.usersURL!)
         } catch {
-            
+            thrownError = error
         }
         //Then
         XCTAssertEqual(fetchedData, [])
-        XCTAssertEqual(url, Constants.usersURL)
+        XCTAssertNotNil(thrownError)
     }
     
     func test_NetworkMockingbird_fetchListData_success() async {
-        guard let url = Constants.listsURL else { return }
-        let mockingbirdNetwork = mock(NetworkProtocol.self)
+        //Given
+        let mockNetwork = mock(NetworkProtocol.self)
         var fetchedData: [ListItem] = []
-        await given(mockingbirdNetwork.fetchData(fromURL: url)).willReturn(MockData.listData)
+        await given(mockNetwork.fetchData(fromURL: Constants.listsURL!))
+            .willReturn(MockData.listData)
+        
+        //When
         do {
-            fetchedData = try await mockingbirdNetwork.fetchData(fromURL: url)
+            fetchedData = try await mockNetwork
+                .fetchData(fromURL: Constants.listsURL!)
         } catch {
-
+            return XCTFail("Weren't able to fetch data")
         }
         
+        //Then
         XCTAssertEqual(fetchedData, MockData.listData)
-        XCTAssertEqual(url, Constants.listsURL)
     }
     
     func test_NetworkMockingbird_fetchUserData_success() async {
         //Given
-        guard let url = Constants.usersURL else { return }
-        let mockingbirdNetwork = mock(NetworkProtocol.self)
+        let mockNetwork = mock(NetworkProtocol.self)
         var fetchedData: [User] = []
-        await given(mockingbirdNetwork.fetchData(fromURL: url)).willReturn(MockData.usersData)
+        await given(mockNetwork.fetchData(fromURL: Constants.usersURL!))
+            .willReturn(MockData.usersData)
 
         //When
         do {
-            fetchedData = try await mockingbirdNetwork.fetchData(fromURL: url)
+            fetchedData = try await mockNetwork
+                .fetchData(fromURL: Constants.usersURL!)
         } catch {
-
+            return XCTFail("Weren't able to fetch data")
         }
         
         //Then
         XCTAssertEqual(fetchedData, MockData.usersData)
-        XCTAssertEqual(url, Constants.usersURL)
     }
 
 }
