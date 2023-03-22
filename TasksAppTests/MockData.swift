@@ -35,5 +35,22 @@ struct MockData {
         TasksApp.User(id: "868B9219-8C43-42BA-96DC-9F0116E3583D", username: "adasds", password: "sdsass"),
         TasksApp.User(id: "56421B0D-8B50-47F0-9369-FE69FA284BB8", username: "assk", password: "dasdsa")
     ]
+    
+    static var singleListData: ListItem =
+    ListItem(id: UUID().uuidString,
+             title: "TestList",
+             tasks: [
+                TasksApp.TaskItem(
+                    id: "C3A4ECF0-31CE-4EDC-8CAB-1FBBF045AA2D",
+                    title: "Send email to coworker"),
+                TasksApp.TaskItem(
+                    id: "15C0D448-E363-4FD8-9089-4B532F469FC3",
+                    title: "Yeah")
+             ]
+             , color: ColorItem(id: UUID().uuidString, title: "ListColor1")
+    )
+    
+    static var singleUserData: User =
+    User(id: UUID().uuidString, username: "TestUser", password: "FHAUIHE12")
 
 }
