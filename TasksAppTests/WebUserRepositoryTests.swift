@@ -32,7 +32,7 @@ final class WebUserRepositoryTests: XCTestCase {
             
         }
         //Then
-        XCTAssertEqual(users, networkMock.usersData)
+        XCTAssertEqual(users, MockData.usersData)
     }
     
     func test_UsersRepository_getAllUsers_failure() async {

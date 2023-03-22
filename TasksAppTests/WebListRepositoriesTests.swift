@@ -33,7 +33,7 @@ final class RepositoriesTests: XCTestCase {
             
         }
         //Then
-        XCTAssertEqual(lists, networkMock.listData)
+        XCTAssertEqual(lists, MockData.listData)
     }
     
     func test_ListRepository_getAllLists_failure() async {
