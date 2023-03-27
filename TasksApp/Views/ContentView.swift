@@ -67,6 +67,16 @@ struct ContentView: View {
                     await viewModel.getListsData()
                 }
             }
+            .alert(isPresented: $viewModel.hasError, error: viewModel.error) {
+                Button("Ok"){}
+                Button {
+                    Task {
+                        await viewModel.getListsData()
+                    }
+                } label: {
+                    Text("Retry")
+                }
+            }
         }.environment(\.colorScheme, .dark)
             .environmentObject(viewModel)
     }

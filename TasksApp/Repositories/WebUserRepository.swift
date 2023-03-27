@@ -18,7 +18,11 @@ struct WebUserRepository: UserRepository {
     
     func getAllUsers() async throws -> [User] {
         guard let url = Constants.usersURL else { return [] }
-        return try await network.fetchData(fromURL: url)
+        do {
+            return try await network.fetchData(fromURL: url)
+        } catch {
+            throw RepositoryErrors.getAllUsersWebUsersError
+        }
     }
     
     func addUser(newUser: User) {
