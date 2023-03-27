@@ -86,10 +86,33 @@ final class ViewModelInteractions: XCTestCase {
     
     func test_ViewModel_moveListOrder() {
         //Given
+        let newList = MockData.singleListData
+        for _ in 0..<100 {
+            viewModel.addList(newListName: newList.title, selectedColor: newList.color.title)
+        }
         
         //When
-        
+        for _ in 0..<200 {
+            let randomNumber1 = Int.random(in: 0..<100)
+            var randomNumber2 = Int.random(in: 1..<100)
+            while randomNumber1 == randomNumber2 {
+                randomNumber2 = Int.random(in: 1..<100)
+            }
+            let indexSet = IndexSet(integer: randomNumber1)
+            let newIndex = randomNumber2
+            
+            let firstIndexSetValue = viewModel.lists[randomNumber1]
+            viewModel.moveListOrder(indices: indexSet, newOffset: newIndex)
+            let mappedIndex = viewModel.lists.firstIndex { $0 == firstIndexSetValue}
+            guard let mappedIndex = mappedIndex else { return }
         //Then
+            XCTAssertEqual(firstIndexSetValue, viewModel.lists[mappedIndex])
+            if randomNumber2 > randomNumber1 {
+                XCTAssertEqual(newIndex-1, mappedIndex)
+            } else {
+                XCTAssertEqual(newIndex, mappedIndex)
+            }
+        }
     }
     
     func test_ViewModel_addTasks() {
@@ -174,10 +197,34 @@ final class ViewModelInteractions: XCTestCase {
     
     func test_ViewModel_moveTaskOrder() {
         //Given
+        let newList = MockData.singleListData
+        let newTask = MockData.singleTask
+        viewModel.addList(newListName: newList.title, selectedColor: newList.color.title)
+        for _ in 0..<100 {
+            viewModel.addTasks(newTaskName: newTask.title, index: 0)
+        }
         
         //When
-        
+        for _ in 0..<200 {
+            let randomNumber1 = Int.random(in: 0..<100)
+            var randomNumber2 = Int.random(in: 1..<100)
+            while randomNumber1 == randomNumber2 {
+                randomNumber2 = Int.random(in: 1..<100)
+            }
+            let indexSet = IndexSet(integer: randomNumber1)
+            let newIndex = randomNumber2
+            let firstIndexSetValue = viewModel.lists[0].tasks[randomNumber1]
+            viewModel.moveTaskOrder(indices: indexSet, newOffset: newIndex, index: 0)
+            let mappedIndex = viewModel.lists[0].tasks.firstIndex {
+                $0 == firstIndexSetValue }
         //Then
+            if randomNumber2 > randomNumber1 {
+                XCTAssertEqual(newIndex-1, mappedIndex)
+            } else {
+                XCTAssertEqual(newIndex, mappedIndex)
+            }
+        }
+
     }
 
 
