@@ -8,4 +8,6 @@
   <li> Allowed HTTP requests to store, change and delete both tasks and lists of the user. </li>
   <li> Used URLSession to execute the HTTP methods such as GET, POST, PUT and DELETE.</li>
   <li> Tested the HTTP requests usign JSON-server</li>
+  <li> Created unit tests as well as manually implemented mocks and using the Mockingbird framework
+  to test the functionalities of the app such as retrieving data and alterating the lists and tasks of the user </li>
 </ul>
