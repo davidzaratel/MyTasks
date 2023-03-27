@@ -17,7 +17,11 @@ struct WebListRepository: ListRepository {
     
     func getAllLists() async throws -> [ListItem] {
         guard let url = Constants.listsURL else { return [] }
-        return try await network.fetchData(fromURL: url)
+        do {
+            return try await network.fetchData(fromURL: url)
+        } catch {
+            throw RepositoryErrors.getAllListsWebListError
+        }
     }
     
     func addList(newList: ListItem) {

@@ -56,3 +56,19 @@ enum NetworkErrors: LocalizedError {
     case unableToFetchData
     case executeRequestError
 }
+
+enum RepositoryErrors: LocalizedError {
+    case getAllListsWebListError
+    case getAllUsersWebUsersError
+}
+
+extension RepositoryErrors {
+    var errorDescription: String? {
+        switch self {
+        case .getAllListsWebListError:
+            return "Failed to retrieve lists data"
+        case .getAllUsersWebUsersError:
+            return "Failed to retrieve users data"
+        }
+    }
+}

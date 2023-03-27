@@ -14,6 +14,8 @@ class ViewModel: ViewModelProtocol, ObservableObject {
     @Published private(set) var users: [User] = []
     @Published private(set) var lists: [ListItem] = []
     @Published private(set) var isLoading: Bool = false
+    @Published private(set) var error: RepositoryErrors?
+    @Published var hasError = false
     private(set) var listRepository: ListRepository
     private(set) var userRepository: UserRepository
     
@@ -32,6 +34,8 @@ class ViewModel: ViewModelProtocol, ObservableObject {
         } catch {
             print("Error", error)
             isLoading = false
+            hasError = true
+            self.error = error as? RepositoryErrors
         }
     }
     
@@ -44,6 +48,8 @@ class ViewModel: ViewModelProtocol, ObservableObject {
         } catch {
             print("Error", error)
             isLoading = false
+            hasError = true
+            self.error = error as? RepositoryErrors
         }
     }
     

@@ -75,6 +75,15 @@ struct AutentificationView: View {
                 Task {
                     await viewModel.getUsersData()
                 }
+            }.alert(isPresented: $viewModel.hasError, error: viewModel.error) {
+                Button("Ok"){}
+                Button {
+                    Task {
+                        await viewModel.getUsersData()
+                    }
+                } label: {
+                    Text("Retry")
+                }
             }
         }
         
