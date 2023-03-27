@@ -52,5 +52,8 @@ struct MockData {
     
     static var singleUserData: User =
     User(id: UUID().uuidString, username: "TestUser", password: "FHAUIHE12")
+    
+    static var singleTask: TaskItem =
+    TaskItem(id: "15C0D448-E363-4FD8-9089-4B532F469FC3", title: "Yeah")
 
 }

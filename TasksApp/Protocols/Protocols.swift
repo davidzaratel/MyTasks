@@ -52,7 +52,7 @@ protocol ViewModelProtocol {
     @MainActor
     func getUsersData() async
     
-    func postNewUser(id: String, username: String, password: String)
+    func createUser(id: String, username: String, password: String)
     
     func addList(newListName: String, selectedColor: String)
     
