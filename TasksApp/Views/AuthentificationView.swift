@@ -63,8 +63,17 @@ struct AutentificationView: View {
                             .background(Color("AddButton"))
                             .cornerRadius(10)
                             .bold()
-                    }.padding(.top, 90)
-                    
+                    }
+                    Button {
+                        viewModel.userLogin()
+                    } label: {
+                        Text("Log in via T-Systems ")
+                            .padding(.horizontal,40).padding()
+                            .foregroundColor(Color.white)
+                            .background(Color("AddButton"))
+                            .cornerRadius(10)
+                            .bold()
+                    }
                 }
                 if viewModel.isLoading {
                     Color.black.opacity(0.7)
@@ -75,7 +84,8 @@ struct AutentificationView: View {
                 Task {
                     await viewModel.getUsersData()
                 }
-            }.alert(isPresented: $viewModel.hasError, error: viewModel.error) {
+            }
+            .alert(isPresented: $viewModel.hasError, error: viewModel.error) {
                 Button("Ok"){}
                 Button {
                     Task {

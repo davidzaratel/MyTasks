@@ -39,4 +39,8 @@ struct WebUserRepository: UserRepository {
             return nil
         }
     }
+    
+    func authenticateUser () {
+        network.callAuthApi()
+    }
 }

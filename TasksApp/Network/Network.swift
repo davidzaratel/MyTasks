@@ -42,4 +42,48 @@ struct Network: NetworkProtocol {
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         self.executeRequest(request: request)
     }
+    
+    func executeCallApiRequest(request: URLRequest) {
+        URLSession.shared.dataTask(with: request) { data , response, error in
+            guard let data = data, error == nil else {
+                return
+            }
+            
+            do {
+               let tokenResponse = try JSONDecoder().decode(AuthResponse.self, from: data)
+                print("SUCCESS", tokenResponse)
+           }
+           catch {
+               print(error.localizedDescription)
+           }
+        
+        }.resume()
+    }
+    
+    func callAuthApi() {
+        let headers = ["content-type": "application/x-www-form-urlencoded"]
+
+        let postData = NSMutableData(data: "grant_type=password".data(using: String.Encoding.utf8)!)
+        postData.append("&username=\(Constants.username)"
+            .data(using: String.Encoding.utf8)!)
+        postData.append("&password=\(Constants.password)"
+            .data(using: String.Encoding.utf8)!)
+        postData.append("&client_id=\(Constants.clientID)"
+            .data(using: String.Encoding.utf8)!)
+        postData.append("&client_secret=\(Constants.clientSecret)"
+            .data(using: String.Encoding.utf8)!)
+        
+        guard let url = Constants.tokenApiUrl else { return }
+        
+        let request = NSMutableURLRequest(
+            url: url,
+            cachePolicy: .useProtocolCachePolicy,
+            timeoutInterval: 10.0
+        )
+        request.httpMethod = "POST"
+        request.allHTTPHeaderFields = headers
+        request.httpBody = postData as Data
+        
+        self.executeCallApiRequest(request: request as URLRequest)
+    }
 }

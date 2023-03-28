@@ -44,6 +44,28 @@ struct Constants {
                                    "ListColor3",
                                    "ListColor4",
                                    "ListColor5"]
+    
+    static var tokenApiUrl: URL? {
+        return URL(string: "https://iam.dev.dih-cloud.com/realms/development/protocol/openid-connect/token"
+        )
+    }
+    
+    static let clientID = "mobile"
+    
+    static let username = "David.Zarate-Lopez@t-systems.com"
+    
+    static let password = "Password123"
+    
+    static let clientSecret = "3FsKYg9RJEe9mVZVn0UVa4kcBpPsWrHl"
+    
+}
+
+
+struct AuthResponse: Codable {
+    let access_token: String
+    let expires_in: Int
+    let refresh_token: String?
+    let token_type: String
 }
 
 enum errorMessages: LocalizedError {
