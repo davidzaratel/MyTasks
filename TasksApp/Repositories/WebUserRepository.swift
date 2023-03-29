@@ -28,7 +28,8 @@ struct WebUserRepository: UserRepository {
     func addUser(newUser: User) {
         guard let url = Constants.usersURL else { return }
         guard let jsonBody = createUserRequestBody(newUser: newUser) else { return }
-        network.makeNetworkRequest(fromURL: url, method: "POST", body: jsonBody)
+        network.makeNetworkRequest(fromURL: url, method: "POST",
+                                   body: jsonBody, headers: nil)
     }
     
     func createUserRequestBody(newUser: User) -> Data? {
@@ -38,5 +39,9 @@ struct WebUserRepository: UserRepository {
         } catch {
             return nil
         }
+    }
+    
+    func authenticateUser (username: String, password: String) {
+        network.configureAuthApiCall(username: username, password: password)
     }
 }

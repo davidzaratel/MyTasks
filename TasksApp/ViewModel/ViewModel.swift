@@ -53,6 +53,9 @@ class ViewModel: ViewModelProtocol, ObservableObject {
         }
     }
     
+    func userLogin(username: String, password: String) {
+        userRepository.authenticateUser(username: username, password: password)
+    }
     
     func createUser(id: String, username: String, password: String) {
         let newUser = User(id: id, username: username, password: password)

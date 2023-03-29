@@ -12,7 +12,7 @@ struct TasksAppApp: App {
     var body: some Scene {
         WindowGroup {
             let network = Network()
-            ContentView(viewModel: ViewModel(listRepository: WebListRepository(network: network),
+            AutentificationView(viewModel: ViewModel(listRepository: WebListRepository(network: network),
                                              userRepository: WebUserRepository(network: network)
                                              ))
         }
