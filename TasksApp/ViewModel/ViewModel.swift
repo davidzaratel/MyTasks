@@ -54,7 +54,12 @@ class ViewModel: ViewModelProtocol, ObservableObject {
     }
     
     func userLogin(username: String, password: String) {
-        userRepository.authenticateUser(username: username, password: password)
+        do {
+            try userRepository.authenticateUser(username: username, password: password)
+        } catch {
+            hasError = true
+            self.error = error as? RepositoryErrors
+        }
     }
     
     func createUser(id: String, username: String, password: String) {

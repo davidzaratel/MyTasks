@@ -40,7 +40,7 @@ class Network: NetworkProtocol {
     func makeNetworkRequest(fromURL url: URL,
                             method: String,
                             body: Data? = nil,
-                            headers: [String : String]? = nil) {
+                            headers: [String : String]? = nil) throws {
         let request = NSMutableURLRequest(url: url,
                                  cachePolicy: .useProtocolCachePolicy,
                                  timeoutInterval: 10.0
@@ -52,28 +52,33 @@ class Network: NetworkProtocol {
             self.executeRequest(request: request as URLRequest)
         } else {
             request.allHTTPHeaderFields = headers
-            self.executeCallApiRequest(request: request as URLRequest)
+            do {
+               try self.executeCallApiRequest(request: request as URLRequest)
+            } catch {
+                throw NetworkErrors.executeApiRequestError
+            }
         }
     }
     
-    func executeCallApiRequest(request: URLRequest) {
+    func executeCallApiRequest(request: URLRequest) throws {
         URLSession.shared.dataTask(with: request) { data , response, error in
             guard let data = data, error == nil else {
                 return
             }
-            
+
             do {
                 self.userToken = try JSONDecoder().decode(AuthResponse.self, from: data)
                 print("SUCCESS", self.userToken as Any)
            }
            catch {
+g               print("possible error")
                print(error.localizedDescription)
            }
-        
+
         }.resume()
     }
     
-    func configureAuthApiCall(username: String, password: String) {
+    func configureAuthApiCall(username: String, password: String) throws {
         let headers = ["content-type": "application/x-www-form-urlencoded"]
 
         let postData = NSMutableData(data: "grant_type=password".data(using: String.Encoding.utf8)!)
@@ -87,6 +92,10 @@ class Network: NetworkProtocol {
             .data(using: String.Encoding.utf8)!)
         
         guard let url = Constants.tokenApiUrl else { return }
-        self.makeNetworkRequest(fromURL: url, method: "POST", body: postData as Data, headers: headers)
+        do {
+            try self.makeNetworkRequest(fromURL: url, method: "POST", body: postData as Data, headers: headers)
+        } catch {
+            throw NetworkErrors.configureApiError
+        }
     }
 }
