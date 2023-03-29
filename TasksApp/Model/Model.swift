@@ -77,6 +77,9 @@ enum errorMessages: LocalizedError {
 enum NetworkErrors: LocalizedError {
     case unableToFetchData
     case executeRequestError
+    case executeApiRequestError
+    case makeRequestError
+    case configureApiError
 }
 
 enum RepositoryErrors: LocalizedError {

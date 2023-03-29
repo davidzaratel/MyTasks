@@ -65,7 +65,7 @@ struct AutentificationView: View {
                             .bold()
                     }
                     Button {
-                        viewModel.userLogin()
+                        loginWithExternalParty()
                     } label: {
                         Text("Log in via T-Systems ")
                             .padding(.horizontal,40).padding()
@@ -116,6 +116,13 @@ struct AutentificationView: View {
                 self.loginMessage = "Please fill both fields"
             }
         }
+    }
+    
+    func loginWithExternalParty () {
+        viewModel.userLogin(username: username, password: password)
+        self.loginMessage = "Authentication was succesful!"
+        username = ""
+        password = ""
     }
 }
 

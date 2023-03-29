@@ -8,7 +8,9 @@
 import Foundation
 
 
-struct Network: NetworkProtocol {
+class Network: NetworkProtocol {
+    
+    var userToken: AuthResponse?
     
     func fetchData<T:Codable> (fromURL url: URL) async throws -> T {
         let urlRequest = URLRequest(url: url)
@@ -35,12 +37,23 @@ struct Network: NetworkProtocol {
         }.resume()
     }
     
-    func makeNetworkRequest(fromURL url: URL, method: String, body: Data? = nil) {
-        var request = URLRequest(url: url)
+    func makeNetworkRequest(fromURL url: URL,
+                            method: String,
+                            body: Data? = nil,
+                            headers: [String : String]? = nil) {
+        let request = NSMutableURLRequest(url: url,
+                                 cachePolicy: .useProtocolCachePolicy,
+                                 timeoutInterval: 10.0
+                                 )
         request.httpMethod = method
         request.httpBody = body
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        self.executeRequest(request: request)
+        if headers == nil {
+            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+            self.executeRequest(request: request as URLRequest)
+        } else {
+            request.allHTTPHeaderFields = headers
+            self.executeCallApiRequest(request: request as URLRequest)
+        }
     }
     
     func executeCallApiRequest(request: URLRequest) {
@@ -50,8 +63,8 @@ struct Network: NetworkProtocol {
             }
             
             do {
-               let tokenResponse = try JSONDecoder().decode(AuthResponse.self, from: data)
-                print("SUCCESS", tokenResponse)
+                self.userToken = try JSONDecoder().decode(AuthResponse.self, from: data)
+                print("SUCCESS", self.userToken as Any)
            }
            catch {
                print(error.localizedDescription)
@@ -60,13 +73,13 @@ struct Network: NetworkProtocol {
         }.resume()
     }
     
-    func callAuthApi() {
+    func configureAuthApiCall(username: String, password: String) {
         let headers = ["content-type": "application/x-www-form-urlencoded"]
 
         let postData = NSMutableData(data: "grant_type=password".data(using: String.Encoding.utf8)!)
-        postData.append("&username=\(Constants.username)"
+        postData.append("&username=\(username)"
             .data(using: String.Encoding.utf8)!)
-        postData.append("&password=\(Constants.password)"
+        postData.append("&password=\(password)"
             .data(using: String.Encoding.utf8)!)
         postData.append("&client_id=\(Constants.clientID)"
             .data(using: String.Encoding.utf8)!)
@@ -74,16 +87,6 @@ struct Network: NetworkProtocol {
             .data(using: String.Encoding.utf8)!)
         
         guard let url = Constants.tokenApiUrl else { return }
-        
-        let request = NSMutableURLRequest(
-            url: url,
-            cachePolicy: .useProtocolCachePolicy,
-            timeoutInterval: 10.0
-        )
-        request.httpMethod = "POST"
-        request.allHTTPHeaderFields = headers
-        request.httpBody = postData as Data
-        
-        self.executeCallApiRequest(request: request as URLRequest)
+        self.makeNetworkRequest(fromURL: url, method: "POST", body: postData as Data, headers: headers)
     }
 }
