@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ContentView: View {
     
-    @StateObject var viewModel: ViewModel
+    @EnvironmentObject var viewModel: ViewModel
     
     @State var searchList = ""
     var listsFiltered : [ListItem] {
@@ -78,14 +78,11 @@ struct ContentView: View {
                 }
             }
         }.environment(\.colorScheme, .dark)
-            .environmentObject(viewModel)
     }
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView(viewModel: ViewModel(listRepository: WebListRepository(network: Network()),
-                                         userRepository: WebUserRepository(network: Network())
-                                         ))
+        ContentView()
     }
 }

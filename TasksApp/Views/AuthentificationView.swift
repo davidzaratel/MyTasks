@@ -19,7 +19,7 @@ struct AutentificationView: View {
     
     var body: some View {
         
-        NavigationView {
+        NavigationStack {
             ZStack {
                 Color("BackgroundColor").ignoresSafeArea()
                 VStack(spacing: 30){
@@ -99,8 +99,11 @@ struct AutentificationView: View {
                     }
                 }
             }
+            .navigationDestination(isPresented: $viewModel.userAuthenticated) {
+                ContentView()
+            }
         }
-        
+        .environmentObject(viewModel)
     }
     
     func registerUser(){

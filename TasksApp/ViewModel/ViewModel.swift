@@ -15,10 +15,10 @@ class ViewModel: ViewModelProtocol, ObservableObject {
     @Published private(set) var lists: [ListItem] = []
     @Published private(set) var isLoading: Bool = false
     @Published private(set) var error: RepositoryErrors?
-    @Published var hasError = false
+    var hasError = false
+    var userAuthenticated = false
     private(set) var listRepository: ListRepository
     private(set) var userRepository: UserRepository
-    private(set) var userAuthenticated = false
     
     init(listRepository: ListRepository,
          userRepository: UserRepository) {
