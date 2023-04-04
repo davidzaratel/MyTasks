@@ -40,45 +40,25 @@ class Network: NetworkProtocol {
     func makeNetworkRequest(fromURL url: URL,
                             method: String,
                             body: Data? = nil,
-                            headers: [String : String]? = nil) throws {
+                            headers: [String : String]? = nil) {
         let request = NSMutableURLRequest(url: url,
                                  cachePolicy: .useProtocolCachePolicy,
                                  timeoutInterval: 10.0
                                  )
         request.httpMethod = method
         request.httpBody = body
-        if headers == nil {
-            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-            self.executeRequest(request: request as URLRequest)
-        } else {
-            request.allHTTPHeaderFields = headers
-            do {
-               try self.executeCallApiRequest(request: request as URLRequest)
-            } catch {
-                throw NetworkErrors.executeApiRequestError
-            }
-        }
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        self.executeRequest(request: request as URLRequest)
     }
     
-    func executeCallApiRequest(request: URLRequest) throws {
-        URLSession.shared.dataTask(with: request) { data , response, error in
-            guard let data = data, error == nil else {
-                return
-            }
-
-            do {
-                self.userToken = try JSONDecoder().decode(AuthResponse.self, from: data)
-                print("SUCCESS", self.userToken as Any)
-           }
-           catch {
-g               print("possible error")
-               print(error.localizedDescription)
-           }
-
-        }.resume()
+    func executeCallApiRequest(request: URLRequest) async throws {
+        let (data, response) = try await URLSession.shared.data(for: request)
+        guard (response as? HTTPURLResponse)?.statusCode == 200
+        else { throw NetworkErrors.executeApiRequestError }
+        self.userToken = try JSONDecoder().decode(AuthResponse.self, from: data)
     }
     
-    func configureAuthApiCall(username: String, password: String) throws {
+    func configureAuthApiCall(username: String, password: String) async throws {
         let headers = ["content-type": "application/x-www-form-urlencoded"]
 
         let postData = NSMutableData(data: "grant_type=password".data(using: String.Encoding.utf8)!)
@@ -92,10 +72,10 @@ g               print("possible error")
             .data(using: String.Encoding.utf8)!)
         
         guard let url = Constants.tokenApiUrl else { return }
-        do {
-            try self.makeNetworkRequest(fromURL: url, method: "POST", body: postData as Data, headers: headers)
-        } catch {
-            throw NetworkErrors.configureApiError
-        }
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.allHTTPHeaderFields = headers
+        request.httpBody = postData as Data
+        try await executeCallApiRequest(request: request)
     }
 }

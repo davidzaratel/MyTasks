@@ -14,7 +14,7 @@ protocol UserRepository {
     
     func addUser(newUser: User)
     
-    func authenticateUser(username: String, password: String) throws
+    func authenticateUser(username: String, password: String) async throws
 }
 
 protocol ListRepository {
@@ -37,9 +37,9 @@ protocol NetworkProtocol {
     func executeRequest(request: URLRequest)
     
     func makeNetworkRequest(fromURL url: URL, method: String,
-                            body: Data?, headers: [String: String]?) throws
+                            body: Data?, headers: [String: String]?)
     
-    func configureAuthApiCall(username: String, password: String) throws
+    func configureAuthApiCall(username: String, password: String) async throws
     
 }
 
