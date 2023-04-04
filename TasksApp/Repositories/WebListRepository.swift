@@ -28,14 +28,14 @@ struct WebListRepository: ListRepository {
         guard let url = Constants.listsURL else { return }
         guard let jsonBody = createListRequestBody(newListItem: newList) else { return }
         network.makeNetworkRequest(fromURL: url, method: "POST",
-                                   body: jsonBody, headers: nil)
+                                       body: jsonBody, headers: nil)
     }
         
     func removeList(id: String) {
         guard let url = Constants.listsURL?.appending(path: id)
         else { return }
         network.makeNetworkRequest(fromURL: url, method: "DELETE",
-                                   body: nil, headers: nil)
+                                       body: nil, headers: nil)
     }
     
     func updateTasks(updatedList: ListItem) {
@@ -43,7 +43,7 @@ struct WebListRepository: ListRepository {
         else { return }
         guard let jsonBody = createListRequestBody(newListItem: updatedList) else { return }
         network.makeNetworkRequest(fromURL: url, method: "PUT",
-                                   body: jsonBody, headers: nil)
+                                       body: jsonBody, headers: nil)
     }
     
     func createListRequestBody(newListItem: ListItem) -> Data? {

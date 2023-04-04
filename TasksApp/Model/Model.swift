@@ -85,6 +85,7 @@ enum NetworkErrors: LocalizedError {
 enum RepositoryErrors: LocalizedError {
     case getAllListsWebListError
     case getAllUsersWebUsersError
+    case authenticateUserError
 }
 
 extension RepositoryErrors {
@@ -94,6 +95,8 @@ extension RepositoryErrors {
             return "Failed to retrieve lists data"
         case .getAllUsersWebUsersError:
             return "Failed to retrieve users data"
-        }
+        case .authenticateUserError:
+            return "The user is not registered in the app"
+        }        
     }
 }

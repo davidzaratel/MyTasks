@@ -65,7 +65,9 @@ struct AutentificationView: View {
                             .bold()
                     }
                     Button {
-                        loginWithExternalParty()
+                        Task {
+                            await loginWithExternalParty()
+                        }
                     } label: {
                         Text("Log in via T-Systems ")
                             .padding(.horizontal,40).padding()
@@ -87,12 +89,14 @@ struct AutentificationView: View {
             }
             .alert(isPresented: $viewModel.hasError, error: viewModel.error) {
                 Button("Ok"){}
-                Button {
-                    Task {
-                        await viewModel.getUsersData()
+                if viewModel.error == .getAllUsersWebUsersError {
+                    Button {
+                        Task {
+                            await viewModel.getUsersData()
+                        }
+                    } label: {
+                        Text("Retry")
                     }
-                } label: {
-                    Text("Retry")
                 }
             }
         }
@@ -118,9 +122,11 @@ struct AutentificationView: View {
         }
     }
     
-    func loginWithExternalParty () {
-        viewModel.userLogin(username: username, password: password)
-        self.loginMessage = "Authentication was succesful!"
+    func loginWithExternalParty () async {
+        await viewModel.userLogin(username: username, password: password)
+        if viewModel.userAuthenticated {
+            self.loginMessage = "Authentication was succesful!"
+        }
         username = ""
         password = ""
     }

@@ -47,33 +47,18 @@ class Network: NetworkProtocol {
                                  )
         request.httpMethod = method
         request.httpBody = body
-        if headers == nil {
-            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-            self.executeRequest(request: request as URLRequest)
-        } else {
-            request.allHTTPHeaderFields = headers
-            self.executeCallApiRequest(request: request as URLRequest)
-        }
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        self.executeRequest(request: request as URLRequest)
     }
     
-    func executeCallApiRequest(request: URLRequest) {
-        URLSession.shared.dataTask(with: request) { data , response, error in
-            guard let data = data, error == nil else {
-                return
-            }
-            
-            do {
-                self.userToken = try JSONDecoder().decode(AuthResponse.self, from: data)
-                print("SUCCESS", self.userToken as Any)
-           }
-           catch {
-               print(error.localizedDescription)
-           }
-        
-        }.resume()
+    func executeCallApiRequest(request: URLRequest) async throws {
+        let (data, response) = try await URLSession.shared.data(for: request)
+        guard (response as? HTTPURLResponse)?.statusCode == 200
+        else { throw NetworkErrors.executeApiRequestError }
+        self.userToken = try JSONDecoder().decode(AuthResponse.self, from: data)
     }
     
-    func configureAuthApiCall(username: String, password: String) {
+    func configureAuthApiCall(username: String, password: String) async throws {
         let headers = ["content-type": "application/x-www-form-urlencoded"]
 
         let postData = NSMutableData(data: "grant_type=password".data(using: String.Encoding.utf8)!)
@@ -87,6 +72,10 @@ class Network: NetworkProtocol {
             .data(using: String.Encoding.utf8)!)
         
         guard let url = Constants.tokenApiUrl else { return }
-        self.makeNetworkRequest(fromURL: url, method: "POST", body: postData as Data, headers: headers)
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.allHTTPHeaderFields = headers
+        request.httpBody = postData as Data
+        try await executeCallApiRequest(request: request)
     }
 }

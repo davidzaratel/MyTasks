@@ -18,6 +18,7 @@ class ViewModel: ViewModelProtocol, ObservableObject {
     @Published var hasError = false
     private(set) var listRepository: ListRepository
     private(set) var userRepository: UserRepository
+    private(set) var userAuthenticated = false
     
     init(listRepository: ListRepository,
          userRepository: UserRepository) {
@@ -53,8 +54,16 @@ class ViewModel: ViewModelProtocol, ObservableObject {
         }
     }
     
-    func userLogin(username: String, password: String) {
-        userRepository.authenticateUser(username: username, password: password)
+    @MainActor
+    func userLogin(username: String, password: String) async {
+        do {
+            try await userRepository.authenticateUser(username: username, password: password)
+            userAuthenticated = true
+        } catch {
+            hasError = true
+            self.error = error as? RepositoryErrors
+            userAuthenticated = false
+        }
     }
     
     func createUser(id: String, username: String, password: String) {
