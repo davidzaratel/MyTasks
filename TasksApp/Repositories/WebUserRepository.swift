@@ -43,7 +43,8 @@ struct WebUserRepository: UserRepository {
     
     func authenticateUser (username: String, password: String) async throws {
         do {
-            try await network.configureAuthApiCall(username: username, password: password)
+            try await network.configureAuthTokenCall(username: username,
+                                                     password: password)
         } catch {
             throw RepositoryErrors.authenticateUserError
         }

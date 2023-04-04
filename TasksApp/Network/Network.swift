@@ -51,14 +51,25 @@ class Network: NetworkProtocol {
         self.executeRequest(request: request as URLRequest)
     }
     
-    func executeCallApiRequest(request: URLRequest) async throws {
+    func makeTokenRequest(fromURL url: URL,
+                        method: String,
+                        body: Data,
+                        headers:  [String : String]? = nil) async throws {
+        var request = URLRequest(url: url)
+        request.httpMethod = method
+        request.allHTTPHeaderFields = headers
+        request.httpBody = body as Data
+        try await executeCallTokenRequest(request: request)
+    }
+    
+    func executeCallTokenRequest(request: URLRequest) async throws {
         let (data, response) = try await URLSession.shared.data(for: request)
         guard (response as? HTTPURLResponse)?.statusCode == 200
         else { throw NetworkErrors.executeApiRequestError }
         self.userToken = try JSONDecoder().decode(AuthResponse.self, from: data)
     }
     
-    func configureAuthApiCall(username: String, password: String) async throws {
+    func configureAuthTokenCall(username: String, password: String) async throws {
         let headers = ["content-type": "application/x-www-form-urlencoded"]
 
         let postData = NSMutableData(data: "grant_type=password".data(using: String.Encoding.utf8)!)
@@ -72,10 +83,20 @@ class Network: NetworkProtocol {
             .data(using: String.Encoding.utf8)!)
         
         guard let url = Constants.tokenApiUrl else { return }
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        request.allHTTPHeaderFields = headers
-        request.httpBody = postData as Data
-        try await executeCallApiRequest(request: request)
+        try await makeTokenRequest(fromURL: url, method: "POST",
+                                   body: postData as Data, headers: headers)
+    }
+    
+    func configureRefreshTokenCall() async throws {
+        guard let userToken = userToken else { return }
+        let headers = ["content-type": "application/x-www-form-urlencoded"]
+        let postData = NSMutableData(data: "grant_type=refresh_token".data(using: String.Encoding.utf8)!)
+        postData.append("&client_id=\(Constants.clientID)"
+            .data(using: String.Encoding.utf8)!)
+        postData.append("&refresh_token=\(userToken.access_token)"
+            .data(using: String.Encoding.utf8)!)
+        guard let url = Constants.tokenApiUrl else { return }
+        try await makeTokenRequest(fromURL: url, method: "POST",
+                                   body: postData as Data, headers: headers)
     }
 }

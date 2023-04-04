@@ -39,7 +39,7 @@ protocol NetworkProtocol {
     func makeNetworkRequest(fromURL url: URL, method: String,
                             body: Data?, headers: [String: String]?)
     
-    func configureAuthApiCall(username: String, password: String) async throws
+    func configureAuthTokenCall(username: String, password: String) async throws
     
 }
 
